@@ -2,8 +2,20 @@
   <time
     :datetime="time"
     :title="localeDateString"
+    :class="{ warning: relativeTime.direction === 'time.in_future' }"
   >
-    {{ $t(relativeTime.key, [relativeTime.num]) }}
+    <template
+      v-if="withDirection"
+    >
+      {{
+        relativeTime.direction === '' ?
+          $tc(relativeTime.key, relativeTime.num, [relativeTime.num]) :
+          $t(relativeTime.direction, [$tc(relativeTime.key, relativeTime.num, [relativeTime.num])])
+      }}
+    </template>
+    <template v-else>
+      {{ $tc(relativeTime.key, relativeTime.num, [relativeTime.num]) }}
+    </template>
   </time>
 </template>
 
@@ -13,7 +25,7 @@ import localeService from 'src/services/locale/locale.service.js'
 
 export default {
   name: 'Timeago',
-  props: ['time', 'autoUpdate', 'longFormat', 'nowThreshold'],
+  props: ['time', 'autoUpdate', 'longFormat', 'nowThreshold', 'withDirection'],
   data () {
     return {
       relativeTime: { key: 'time.now', num: 0 },
@@ -40,7 +52,6 @@ export default {
       this.relativeTime = this.longFormat
         ? DateUtils.relativeTime(this.time, nowThreshold)
         : DateUtils.relativeTimeShort(this.time, nowThreshold)
-
       if (this.autoUpdate) {
         this.interval = setTimeout(
           this.refreshRelativeTimeObject,
@@ -51,3 +62,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import '../../_variables.scss';
+.timeago {
+  time.warning {
+    color: var(--alertWarning, $fallback--alertWarning);
+  }
+}
+</style>

@@ -51,8 +51,11 @@ const v1OnlyNames = [
   'cOrange'
 ].map(_ => _ + 'ColorLocal')
 
+// if color doesn't match regex, it's not a color
+const isColor = (color) => /^#[0-9a-f]{6}$/i.test(color)
+
 const colorConvert = (color) => {
-  if (color.startsWith('--') || color === 'transparent') {
+  if (color.startsWith('--') || color === 'transparent' || !isColor(color)) {
     return color
   } else {
     return hex2rgb(color)
@@ -112,8 +115,7 @@ export default {
       avatarRadiusLocal: '',
       avatarAltRadiusLocal: '',
       attachmentRadiusLocal: '',
-      tooltipRadiusLocal: '',
-      chatMessageRadiusLocal: ''
+      tooltipRadiusLocal: ''
     }
   },
   created () {
@@ -228,8 +230,7 @@ export default {
         avatar: this.avatarRadiusLocal,
         avatarAlt: this.avatarAltRadiusLocal,
         tooltip: this.tooltipRadiusLocal,
-        attachment: this.attachmentRadiusLocal,
-        chatMessage: this.chatMessageRadiusLocal
+        attachment: this.attachmentRadiusLocal
       }
     },
     preview () {
@@ -246,6 +247,7 @@ export default {
         const colors = this.previewTheme.colors
         const opacity = this.previewTheme.opacity
         if (!colors.bg) return {}
+        if (!isColor(colors.bg)) return {}
         const hints = (ratio) => ({
           text: ratio.toPrecision(3) + ':1',
           // AA level, AAA level

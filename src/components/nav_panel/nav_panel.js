@@ -13,7 +13,8 @@ import {
   faBell,
   faInfoCircle,
   faStream,
-  faList
+  faList,
+  faBullhorn
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -27,7 +28,8 @@ library.add(
   faBell,
   faInfoCircle,
   faStream,
-  faList
+  faList,
+  faBullhorn
 )
 
 const NavPanel = {
@@ -54,10 +56,9 @@ const NavPanel = {
       currentUser: state => state.users.currentUser,
       followRequestCount: state => state.api.followRequests.length,
       privateMode: state => state.instance.private,
-      federating: state => state.instance.federating,
-      pleromaChatMessagesAvailable: state => state.instance.pleromaChatMessagesAvailable
+      federating: state => state.instance.federating
     }),
-    ...mapGetters(['unreadChatCount'])
+    ...mapGetters(['unreadAnnouncementCount'])
   }
 }
 

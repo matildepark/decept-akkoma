@@ -247,9 +247,6 @@ const getNodeInfo = async ({ store }) => {
       store.dispatch('setInstanceOption', { name: 'registrationOpen', value: data.openRegistrations })
       store.dispatch('setInstanceOption', { name: 'mediaProxyAvailable', value: features.includes('media_proxy') })
       store.dispatch('setInstanceOption', { name: 'safeDM', value: features.includes('safe_dm_mentions') })
-      store.dispatch('setInstanceOption', { name: 'shoutAvailable', value: features.includes('chat') })
-      store.dispatch('setInstanceOption', { name: 'pleromaChatMessagesAvailable', value: features.includes('pleroma_chat_messages') })
-      store.dispatch('setInstanceOption', { name: 'gopherAvailable', value: features.includes('gopher') })
       store.dispatch('setInstanceOption', { name: 'pollsAvailable', value: features.includes('polls') })
       store.dispatch('setInstanceOption', { name: 'pollLimits', value: metadata.pollLimits })
       store.dispatch('setInstanceOption', { name: 'mailerEnabled', value: metadata.mailerEnabled })
@@ -288,6 +285,7 @@ const getNodeInfo = async ({ store }) => {
       })
 
       store.dispatch('setInstanceOption', { name: 'federationPolicy', value: federation })
+      store.dispatch('setInstanceOption', { name: 'localBubbleInstances', value: metadata.localBubbleInstances })
       store.dispatch('setInstanceOption', {
         name: 'federating',
         value: typeof federation.enabled === 'undefined'
@@ -370,6 +368,7 @@ const afterStoreSetup = async ({ store, i18n }) => {
 
   // Start fetching things that don't need to block the UI
   store.dispatch('fetchMutes')
+  store.dispatch('startFetchingAnnouncements')
   getTOS({ store })
   getStickers({ store })
 
@@ -378,8 +377,9 @@ const afterStoreSetup = async ({ store, i18n }) => {
     routes: routes(store),
     scrollBehavior: (to, _from, savedPosition) => {
       if (to.matched.some(m => m.meta.dontScroll)) {
-        return false
+        return {}
       }
+
       return savedPosition || { left: 0, top: 0 }
     }
   })

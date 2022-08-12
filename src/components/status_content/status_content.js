@@ -3,6 +3,7 @@ import Poll from '../poll/poll.vue'
 import Gallery from '../gallery/gallery.vue'
 import StatusBody from 'src/components/status_body/status_body.vue'
 import LinkPreview from '../link-preview/link-preview.vue'
+import QuoteCard from '../quote_card/quote_card.vue'
 import { mapGetters, mapState } from 'vuex'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -99,6 +100,9 @@ const StatusContent = {
     maxThumbnails () {
       return this.mergedConfig.maxThumbnails
     },
+    renderMfmOnHover () {
+      return this.mergedConfig.renderMfmOnHover
+    },
     ...mapGetters(['mergedConfig']),
     ...mapState({
       currentUser: state => state.users.currentUser
@@ -109,7 +113,8 @@ const StatusContent = {
     Poll,
     Gallery,
     LinkPreview,
-    StatusBody
+    StatusBody,
+    QuoteCard
   },
   methods: {
     toggleShowingTall () {

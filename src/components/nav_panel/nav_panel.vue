@@ -49,24 +49,6 @@
             />{{ $t("nav.interactions") }}
           </router-link>
         </li>
-        <li v-if="currentUser && pleromaChatMessagesAvailable">
-          <router-link
-            class="menu-item"
-            :to="{ name: 'chats', params: { username: currentUser.screen_name } }"
-          >
-            <div
-              v-if="unreadChatCount"
-              class="badge badge-notification"
-            >
-              {{ unreadChatCount }}
-            </div>
-            <FAIcon
-              fixed-width
-              class="fa-scale-110"
-              icon="comments"
-            />{{ $t("nav.chats") }}
-          </router-link>
-        </li>
         <li v-if="currentUser && currentUser.locked">
           <router-link
             class="menu-item"
@@ -95,6 +77,24 @@
               class="fa-scale-110"
               icon="info-circle"
             />{{ $t("nav.about") }}
+          </router-link>
+        </li>
+        <li v-if="currentUser">
+          <router-link
+            class="menu-item"
+            :to="{ name: 'announcements' }"
+          >
+            <FAIcon
+              fixed-width
+              class="fa-scale-110"
+              icon="bullhorn"
+            />{{ $t('nav.announcements') }}
+            <span
+              v-if="unreadAnnouncementCount > 0"
+              class="badge badge-notification"
+            >
+              {{ unreadAnnouncementCount }}
+            </span>
           </router-link>
         </li>
       </ul>

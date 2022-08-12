@@ -124,6 +124,21 @@ export default {
     }
 
     const renderMisskeyMarkdown = (content) => {
+      // Untangle code blocks from <br> tags and other html encodings
+      const codeblocks = content.match(/(<br\/>)?(~~~|```)\w*<br\/>.+?<br\/>\2\1?/g)
+      if (codeblocks) {
+        codeblocks.forEach((pre) => {
+          content = content.replace(pre,
+            pre.replaceAll('<br/>', '\n')
+               .replaceAll('&amp;', '&')
+               .replaceAll('&lt;', '<')
+               .replaceAll('&gt;', '>')
+               .replaceAll('&quot', '"')
+               .replaceAll('&#39;', "'")
+          )
+        })
+      }
+
       marked.use(markedMfm, {
         mangle: false,
         gfm: false,
@@ -133,20 +148,22 @@ export default {
       mfmHtml.innerHTML = marked.parse(content)
 
       // Add options with set values to CSS
-      Array.from(mfmHtml.content.firstChild.getElementsByClassName('mfm')).map((el) => {
-        if (el.dataset.speed) {
-          el.style.animationDuration = el.dataset.speed
-        }
-        if (el.dataset.deg) {
-          el.style.transform = `rotate(${el.dataset.deg}deg)`
-        }
-        if (Array.from(el.classList).includes('_mfm_font_')) {
-          const font = Object.keys(el.dataset)[0]
-          if (['serif', 'monospace', 'cursive', 'fantasy', 'emoji', 'math'].includes(font)) {
-            el.style.fontFamily = font
+      if (mfmHtml.content.firstChild) {
+        Array.from(mfmHtml.content.firstChild.getElementsByClassName('mfm')).map((el) => {
+          if (el.dataset.speed) {
+            el.style.animationDuration = el.dataset.speed
           }
-        }
-      })
+          if (el.dataset.deg) {
+            el.style.transform = `rotate(${el.dataset.deg}deg)`
+          }
+          if (Array.from(el.classList).includes('_mfm_font_')) {
+            const font = Object.keys(el.dataset)[0]
+            if (['serif', 'monospace', 'cursive', 'fantasy', 'emoji', 'math'].includes(font)) {
+              el.style.fontFamily = font
+            }
+          }
+        })
+      }
 
       return mfmHtml.innerHTML
     }

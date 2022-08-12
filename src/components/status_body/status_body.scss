@@ -6,8 +6,33 @@
 
   .emoji {
     --_still_image-label-scale: 0.5;
-    width: 50px;
-    height: 50px;
+    --emoji-size: 38px;
+  }
+
+  .emoji:hover {
+    transform: scale(1.4);
+    transition: 0.05s;
+  }
+
+  ._mfm_x2_ {
+    .emoji {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  ._mfm_x3_ {
+    .emoji {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  ._mfm_x4_ {
+    .emoji {
+      width: 200px;
+      height: 200px;
+    }
   }
 
   .attachments {
@@ -72,7 +97,7 @@
       overflow-y: hidden;
       z-index: 1;
 
-      .media-body {
+      .media-body-wrapper {
         min-height: 0;
         mask:
           linear-gradient(to top, white, transparent) bottom/100% 70px no-repeat,
@@ -132,16 +157,19 @@
 
     --emoji-size: 16px;
 
-    & .body,
+    & .body:not(:active),
     & .attachments {
       max-height: 3.25em;
     }
 
     .body {
-      overflow: hidden;
       white-space: normal;
       min-width: 5em;
       flex: 5 1 auto;
+    }
+
+    .body:not(:active) {
+      overflow: hidden;
       mask-size: auto 3.5em, auto auto;
       mask-position: 0 0, 0 0;
       mask-repeat: repeat-x, repeat;
@@ -176,3 +204,4 @@
     }
   }
 }
+

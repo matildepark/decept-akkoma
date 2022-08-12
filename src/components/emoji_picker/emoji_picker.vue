@@ -13,18 +13,15 @@
           :title="group.text"
           @click.prevent="highlight(group.id)"
         >
-          <FAIcon
-            :icon="group.icon"
-            fixed-width
-          />
+          <span v-if="!group.first.imageUrl">{{ group.first.replacement }}</span>
+          <img
+            v-else
+            :src="group.first.imageUrl"
+          >
         </span>
-      </span>
-      <span
-        v-if="stickerPickerEnabled"
-        class="additional-tabs"
-      >
         <span
-          class="stickers-tab-icon additional-tabs-item"
+          v-if="stickerPickerEnabled"
+          class="stickers-tab-icon emoji-tabs-item"
           :class="{active: showingStickers}"
           :title="$t('emoji.stickers')"
           @click.prevent="toggleStickers"
@@ -47,6 +44,7 @@
             type="text"
             class="form-control"
             :placeholder="$t('emoji.search_emoji')"
+            @input="$event.target.composing = false"
           >
         </div>
         <div

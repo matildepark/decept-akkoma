@@ -1,5 +1,5 @@
 import { each, map, concat, last, get } from 'lodash'
-import { parseStatus, parseUser, parseNotification, parseAttachment, parseChat, parseLinkHeaderPagination } from '../entity_normalizer/entity_normalizer.service.js'
+import { parseStatus, parseUser, parseNotification, parseAttachment, parseLinkHeaderPagination } from '../entity_normalizer/entity_normalizer.service.js'
 import { RegistrationError, StatusCodeError } from '../errors/errors'
 
 /* eslint-env browser */
@@ -47,6 +47,7 @@ const MASTODON_DENY_USER_URL = id => `/api/v1/follow_requests/${id}/reject`
 const MASTODON_DIRECT_MESSAGES_TIMELINE_URL = '/api/v1/timelines/direct'
 const MASTODON_PUBLIC_TIMELINE = '/api/v1/timelines/public'
 const MASTODON_USER_HOME_TIMELINE_URL = '/api/v1/timelines/home'
+const AKKOMA_BUBBLE_TIMELINE_URL = '/api/v1/timelines/bubble'
 const MASTODON_STATUS_URL = id => `/api/v1/statuses/${id}`
 const MASTODON_STATUS_CONTEXT_URL = id => `/api/v1/statuses/${id}/context`
 const MASTODON_USER_URL = id => `/api/v1/accounts/${id}?with_relationships=true`
@@ -87,14 +88,16 @@ const MASTODON_DOMAIN_BLOCKS_URL = '/api/v1/domain_blocks'
 const MASTODON_LISTS_URL = '/api/v1/lists'
 const MASTODON_STREAMING = '/api/v1/streaming'
 const MASTODON_KNOWN_DOMAIN_LIST_URL = '/api/v1/instance/peers'
+const MASTODON_ANNOUNCEMENTS_URL = '/api/v1/announcements'
+const MASTODON_ANNOUNCEMENTS_DISMISS_URL = id => `/api/v1/announcements/${id}/dismiss`
 const PLEROMA_EMOJI_REACTIONS_URL = id => `/api/v1/pleroma/statuses/${id}/reactions`
 const PLEROMA_EMOJI_REACT_URL = (id, emoji) => `/api/v1/pleroma/statuses/${id}/reactions/${emoji}`
 const PLEROMA_EMOJI_UNREACT_URL = (id, emoji) => `/api/v1/pleroma/statuses/${id}/reactions/${emoji}`
-const PLEROMA_CHATS_URL = `/api/v1/pleroma/chats`
-const PLEROMA_CHAT_URL = id => `/api/v1/pleroma/chats/by-account-id/${id}`
-const PLEROMA_CHAT_MESSAGES_URL = id => `/api/v1/pleroma/chats/${id}/messages`
-const PLEROMA_CHAT_READ_URL = id => `/api/v1/pleroma/chats/${id}/read`
-const PLEROMA_DELETE_CHAT_MESSAGE_URL = (chatId, messageId) => `/api/v1/pleroma/chats/${chatId}/messages/${messageId}`
+const PLEROMA_BACKUP_URL = '/api/v1/pleroma/backups'
+const PLEROMA_ANNOUNCEMENTS_URL = '/api/v1/pleroma/admin/announcements'
+const PLEROMA_POST_ANNOUNCEMENT_URL = '/api/v1/pleroma/admin/announcements'
+const PLEROMA_EDIT_ANNOUNCEMENT_URL = id => `/api/v1/pleroma/admin/announcements/${id}`
+const PLEROMA_DELETE_ANNOUNCEMENT_URL = id => `/api/v1/pleroma/admin/announcements/${id}`
 
 const oldfetch = window.fetch
 
@@ -606,6 +609,7 @@ const fetchTimeline = ({
 }) => {
   const timelineUrls = {
     public: MASTODON_PUBLIC_TIMELINE,
+    bubble: AKKOMA_BUBBLE_TIMELINE_URL,
     friends: MASTODON_USER_HOME_TIMELINE_URL,
     dms: MASTODON_DIRECT_MESSAGES_TIMELINE_URL,
     notifications: MASTODON_USER_NOTIFICATIONS_URL,
@@ -759,6 +763,7 @@ const postStatus = ({
   poll,
   mediaIds = [],
   inReplyToStatusId,
+  quoteId,
   contentType,
   preview,
   idempotencyKey
@@ -790,6 +795,9 @@ const postStatus = ({
   }
   if (inReplyToStatusId) {
     form.append('in_reply_to_id', inReplyToStatusId)
+  }
+  if (quoteId) {
+    form.append('quote_id', quoteId)
   }
   if (preview) {
     form.append('preview', 'true')
@@ -1054,6 +1062,25 @@ const fetchBlocks = ({ credentials }) => {
     .then((users) => users.map(parseUser))
 }
 
+const addBackup = ({ credentials }) => {
+  return promisedRequest({
+    url: PLEROMA_BACKUP_URL,
+    method: 'POST',
+    credentials
+  })
+}
+
+const listBackups = ({ credentials }) => {
+  return promisedRequest({
+    url: PLEROMA_BACKUP_URL,
+    method: 'GET',
+    credentials,
+    params: {
+      _cacheBooster: (new Date()).getTime()
+    }
+  })
+}
+
 const fetchOAuthTokens = ({ credentials }) => {
   const url = '/api/oauth_tokens.json'
 
@@ -1271,6 +1298,66 @@ const dismissNotification = ({ credentials, id }) => {
   })
 }
 
+const adminFetchAnnouncements = ({ credentials }) => {
+  return promisedRequest({ url: PLEROMA_ANNOUNCEMENTS_URL, credentials })
+}
+
+const fetchAnnouncements = ({ credentials }) => {
+  return promisedRequest({ url: MASTODON_ANNOUNCEMENTS_URL, credentials })
+}
+
+const dismissAnnouncement = ({ id, credentials }) => {
+  return promisedRequest({
+    url: MASTODON_ANNOUNCEMENTS_DISMISS_URL(id),
+    credentials,
+    method: 'POST'
+  })
+}
+
+const announcementToPayload = ({ content, startsAt, endsAt, allDay }) => {
+  const payload = { content }
+
+  if (typeof startsAt !== 'undefined') {
+    payload['starts_at'] = startsAt ? new Date(startsAt).toISOString() : null
+  }
+
+  if (typeof endsAt !== 'undefined') {
+    payload['ends_at'] = endsAt ? new Date(endsAt).toISOString() : null
+  }
+
+  if (typeof allDay !== 'undefined') {
+    payload['all_day'] = allDay
+  }
+
+  return payload
+}
+
+const postAnnouncement = ({ credentials, content, startsAt, endsAt, allDay }) => {
+  return promisedRequest({
+    url: PLEROMA_POST_ANNOUNCEMENT_URL,
+    credentials,
+    method: 'POST',
+    payload: announcementToPayload({ content, startsAt, endsAt, allDay })
+  })
+}
+
+const editAnnouncement = ({ id, credentials, content, startsAt, endsAt, allDay }) => {
+  return promisedRequest({
+    url: PLEROMA_EDIT_ANNOUNCEMENT_URL(id),
+    credentials,
+    method: 'PATCH',
+    payload: announcementToPayload({ content, startsAt, endsAt, allDay })
+  })
+}
+
+const deleteAnnouncement = ({ id, credentials }) => {
+  return promisedRequest({
+    url: PLEROMA_DELETE_ANNOUNCEMENT_URL(id),
+    credentials,
+    method: 'DELETE'
+  })
+}
+
 export const getMastodonSocketURI = ({ credentials, stream, args = {} }) => {
   return Object.entries({
     ...(credentials
@@ -1292,7 +1379,6 @@ const MASTODON_STREAMING_EVENTS = new Set([
 ])
 
 const PLEROMA_STREAMING_EVENTS = new Set([
-  'pleroma:chat_update'
 ])
 
 // A thin wrapper around WebSocket API that allows adding a pre-processor to it
@@ -1315,7 +1401,15 @@ export const ProcessedWS = ({
   }
   socket.addEventListener('open', (wsEvent) => {
     console.debug(`[WS][${id}] Socket connected`, wsEvent)
+    setInterval(() => {
+      try {
+        socket.send('ping')
+      } catch (e) {
+        clearInterval(this)
+      }
+    }, 30000)
   })
+
   socket.addEventListener('error', (wsEvent) => {
     console.debug(`[WS][${id}] Socket errored`, wsEvent)
   })
@@ -1350,6 +1444,8 @@ export const ProcessedWS = ({
 export const handleMastoWS = (wsEvent) => {
   const { data } = wsEvent
   if (!data) return
+  if (data === 'pong') return
+
   const parsedEvent = JSON.parse(data)
   const { event, payload } = parsedEvent
   if (MASTODON_STREAMING_EVENTS.has(event) || PLEROMA_STREAMING_EVENTS.has(event)) {
@@ -1362,8 +1458,6 @@ export const handleMastoWS = (wsEvent) => {
       return { event, status: parseStatus(data) }
     } else if (event === 'notification') {
       return { event, notification: parseNotification(data) }
-    } else if (event === 'pleroma:chat_update') {
-      return { event, chatUpdate: parseChat(data) }
     }
   } else {
     console.warn('Unknown event', wsEvent)
@@ -1379,82 +1473,6 @@ export const WSConnectionStatus = Object.freeze({
   'STARTING': 5,
   'STARTING_INITIAL': 6
 })
-
-const chats = ({ credentials }) => {
-  return fetch(PLEROMA_CHATS_URL, { headers: authHeaders(credentials) })
-    .then((data) => data.json())
-    .then((data) => {
-      return { chats: data.map(parseChat).filter(c => c) }
-    })
-}
-
-const getOrCreateChat = ({ accountId, credentials }) => {
-  return promisedRequest({
-    url: PLEROMA_CHAT_URL(accountId),
-    method: 'POST',
-    credentials
-  })
-}
-
-const chatMessages = ({ id, credentials, maxId, sinceId, limit = 20 }) => {
-  let url = PLEROMA_CHAT_MESSAGES_URL(id)
-  const args = [
-    maxId && `max_id=${maxId}`,
-    sinceId && `since_id=${sinceId}`,
-    limit && `limit=${limit}`
-  ].filter(_ => _).join('&')
-
-  url = url + (args ? '?' + args : '')
-
-  return promisedRequest({
-    url,
-    method: 'GET',
-    credentials
-  })
-}
-
-const sendChatMessage = ({ id, content, mediaId = null, idempotencyKey, credentials }) => {
-  const payload = {
-    'content': content
-  }
-
-  if (mediaId) {
-    payload['media_id'] = mediaId
-  }
-
-  const headers = {}
-
-  if (idempotencyKey) {
-    headers['idempotency-key'] = idempotencyKey
-  }
-
-  return promisedRequest({
-    url: PLEROMA_CHAT_MESSAGES_URL(id),
-    method: 'POST',
-    payload: payload,
-    credentials,
-    headers
-  })
-}
-
-const readChat = ({ id, lastReadId, credentials }) => {
-  return promisedRequest({
-    url: PLEROMA_CHAT_READ_URL(id),
-    method: 'POST',
-    payload: {
-      'last_read_id': lastReadId
-    },
-    credentials
-  })
-}
-
-const deleteChatMessage = ({ chatId, messageId, credentials }) => {
-  return promisedRequest({
-    url: PLEROMA_DELETE_CHAT_MESSAGE_URL(chatId, messageId),
-    method: 'DELETE',
-    credentials
-  })
-}
 
 const apiService = {
   verifyCredentials,
@@ -1520,6 +1538,8 @@ const apiService = {
   generateMfaBackupCodes,
   mfaSetupOTP,
   mfaConfirmOTP,
+  addBackup,
+  listBackups,
   fetchFollowRequests,
   fetchLists,
   createList,
@@ -1551,12 +1571,12 @@ const apiService = {
   fetchDomainMutes,
   muteDomain,
   unmuteDomain,
-  chats,
-  getOrCreateChat,
-  chatMessages,
-  sendChatMessage,
-  readChat,
-  deleteChatMessage
+  fetchAnnouncements,
+  dismissAnnouncement,
+  postAnnouncement,
+  editAnnouncement,
+  deleteAnnouncement,
+  adminFetchAnnouncements
 }
 
 export default apiService

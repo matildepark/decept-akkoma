@@ -30,6 +30,7 @@ const defaultState = {
   // bad name: actually hides posts of muted USERS
   hideMutedPosts: false,
   hideMutedThreads: true,
+  hideThreadsWithBlockedUsers: false,
   hideWordFilteredPosts: false,
   hidePostStats: false,
   hideBotIndication: false,
@@ -55,7 +56,8 @@ const defaultState = {
   virtualScrolling: true,
   sensitiveByDefault: false,
   sensitiveIfSubject: true,
-  renderMisskeyMarkdown: false,
+  renderMisskeyMarkdown: true,
+  renderMfmOnHover: false,
   conversationDisplay: 'linear',
   conversationTreeAdvanced: false,
   conversationOtherRepliesButton: 'below',
@@ -74,9 +76,6 @@ const defaultState = {
   knownDomains: [],
 
   // Feature-set, apparently, not everything here is reported...
-  shoutAvailable: false,
-  pleromaChatMessagesAvailable: false,
-  gopherAvailable: false,
   mediaProxyAvailable: false,
   suggestionsEnabled: false,
   suggestionsWeb: '',
@@ -126,11 +125,6 @@ const instance = {
       switch (name) {
         case 'name':
           dispatch('setPageTitle')
-          break
-        case 'shoutAvailable':
-          if (value) {
-            dispatch('initializeSocket')
-          }
           break
         case 'theme':
           dispatch('setTheme', value)

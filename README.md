@@ -1,16 +1,20 @@
 # Pleroma-FE 
 
-> A single column frontend designed for Pleroma.
-
-![screenshot](/uploads/796c5ecf985ed1e2b0943ee0df131ed0/DJVqSJ0.png)
+This is a fork of Pleroma-FE from the Pleroma project, with support for new Akkoma features such as:
+- MFM support via [marked-mfm](https://akkoma.dev/sfr/marked-mfm)
+- Custom emoji reactions
 
 # For Translators
 
-To translate Pleroma-FE, add your language to [src/i18n/messages.js](https://git.pleroma.social/pleroma/pleroma-fe/blob/develop/src/i18n/messages.js). Pleroma-FE will set your language by your browser locale, but you can temporarily force it in the code by changing the locale in main.js.
+The [Weblate UI](https://translate.akkoma.dev/projects/akkoma/pleroma-fe/) is recommended for adding or modifying translations for Pleroma-FE. 
+
+Alternatively, edit/create `src/i18n/$LANGUAGE_CODE.json` (where `$LANGUAGE_CODE` is the [ISO 639-1 code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) for your language), then add your language to [src/i18n/messages.js](https://akkoma.dev/AkkomaGang/pleroma-fe/src/branch/develop/src/i18n/messages.js) if it doesn't already exist there.
+
+Pleroma-FE will set your language by your browser locale, but you can temporarily force it in the code by changing the locale in main.js.
 
 # FOR ADMINS
 
-You don't need to build Pleroma-FE yourself. Those using the Pleroma backend will be able to use it out of the box.
+To use Pleroma-FE in Akkoma, use the [frontend](https://docs.akkoma.dev/stable/administration/CLI_tasks/frontend/) CLI task to install Pleroma-FE, then modify your configuration as described in the [Frontend Management](https://docs.akkoma.dev/stable/configuration/frontend_management/) doc.
 
 ## Build Setup
 

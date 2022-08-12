@@ -1,7 +1,7 @@
 <template>
   <div
     class="StatusContent"
-    :class="{ '-compact': compact }"
+    :class="{ '-compact': compact, 'mfm-hover': renderMfmOnHover }"
   >
     <slot name="header" />
     <StatusBody
@@ -40,7 +40,14 @@
         @play="$emit('mediaplay', attachment.id)"
         @pause="$emit('mediapause', attachment.id)"
       />
-
+      <div
+        v-if="status.quote && !compact"
+        class="quote"
+      >
+        <QuoteCard
+          :status="status.quote"
+        />
+      </div>
       <div
         v-if="status.card && !noHeading && !compact"
         class="link-preview media-body"
@@ -68,5 +75,17 @@
       height: 50px;
     }
   }
+
+  &.mfm-hover:not(:hover) {
+    .mfm {
+      animation: none;
+    }
+  }
 }
+
+.quote-inline,
+.quote + .link-preview {
+  display: none;
+}
+
 </style>
