@@ -1,16 +1,21 @@
 import SearchBar from 'components/search_bar/search_bar.vue'
+import ConfirmModal from '../confirm_modal/confirm_modal.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faSignInAlt,
   faSignOutAlt,
   faHome,
   faComments,
-  faBell,
   faUserPlus,
   faBullhorn,
   faSearch,
   faTachometerAlt,
   faCog,
+  faGlobe,
+  faBolt,
+  faUsers,
+  faCommentMedical,
+  faBookmark,
   faInfoCircle
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -19,18 +24,23 @@ library.add(
   faSignOutAlt,
   faHome,
   faComments,
-  faBell,
   faUserPlus,
   faBullhorn,
   faSearch,
   faTachometerAlt,
   faCog,
+  faGlobe,
+  faBolt,
+  faUsers,
+  faCommentMedical,
+  faBookmark,
   faInfoCircle
 )
 
 export default {
   components: {
-    SearchBar
+    SearchBar,
+    ConfirmModal
   },
   data: () => ({
     searchBarHidden: true,
@@ -40,7 +50,8 @@ export default {
         window.CSS.supports('-moz-mask-size', 'contain') ||
         window.CSS.supports('-ms-mask-size', 'contain') ||
         window.CSS.supports('-o-mask-size', 'contain')
-    )
+    ),
+    showingConfirmLogout: false
   }),
   computed: {
     enableMask () { return this.supportsMask && this.$store.state.instance.logoMask },
@@ -65,19 +76,33 @@ export default {
       })
     },
     logo () { return this.$store.state.instance.logo },
+    mergedConfig () {
+      return this.$store.getters.mergedConfig
+    },
     sitename () { return this.$store.state.instance.name },
+    showNavShortcuts () {
+      return this.mergedConfig.showNavShortcuts
+    },
+    showWiderShortcuts () {
+      return this.mergedConfig.showWiderShortcuts
+    },
+    hideSiteFavicon () {
+      return this.mergedConfig.hideSiteFavicon
+    },
+    hideSiteName () {
+      return this.mergedConfig.hideSiteName
+    },
     hideSitename () { return this.$store.state.instance.hideSitename },
     logoLeft () { return this.$store.state.instance.logoLeft },
     currentUser () { return this.$store.state.users.currentUser },
-    privateMode () { return this.$store.state.instance.private }
+    privateMode () { return this.$store.state.instance.private },
+    shouldConfirmLogout () {
+      return this.$store.getters.mergedConfig.modalOnLogout
+    }
   },
   methods: {
     scrollToTop () {
       window.scrollTo(0, 0)
-    },
-    logout () {
-      this.$router.replace('/main/public')
-      this.$store.dispatch('logout')
     },
     onSearchBarToggled (hidden) {
       this.searchBarHidden = hidden

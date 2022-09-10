@@ -1,7 +1,9 @@
 import SideDrawer from '../side_drawer/side_drawer.vue'
 import Notifications from '../notifications/notifications.vue'
+import ConfirmModal from '../confirm_modal/confirm_modal.vue'
 import { unseenNotificationsFromStore } from '../../services/notification_utils/notification_utils'
 import GestureService from '../../services/gesture_service/gesture_service'
+import { mapGetters } from 'vuex'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faTimes,
@@ -18,11 +20,13 @@ library.add(
 const MobileNav = {
   components: {
     SideDrawer,
-    Notifications
+    Notifications,
+    ConfirmModal
   },
   data: () => ({
     notificationsCloseGesture: undefined,
-    notificationsOpen: false
+    notificationsOpen: false,
+    showingConfirmLogout: false
   }),
   created () {
     this.notificationsCloseGesture = GestureService.swipeGesture(
@@ -41,8 +45,17 @@ const MobileNav = {
     unseenNotificationsCount () {
       return this.unseenNotifications.length
     },
-    hideSitename () { return this.$store.state.instance.hideSitename },
-    sitename () { return this.$store.state.instance.name }
+    mergedConfig () {
+      return this.$store.getters.mergedConfig
+    },
+    hideSiteName () {
+      return this.mergedConfig.hideSiteName
+    },
+    sitename () { return this.$store.state.instance.name },
+    shouldConfirmLogout () {
+      return this.$store.getters.mergedConfig.modalOnLogout
+    },
+    ...mapGetters(['unreadChatCount'])
   },
   methods: {
     toggleMobileSidebar () {
@@ -68,9 +81,23 @@ const MobileNav = {
     scrollToTop () {
       window.scrollTo(0, 0)
     },
+    showConfirmLogout () {
+      this.showingConfirmLogout = true
+    },
+    hideConfirmLogout () {
+      this.showingConfirmLogout = false
+    },
     logout () {
+      if (!this.shouldConfirmLogout) {
+        this.doLogout()
+      } else {
+        this.showConfirmLogout()
+      }
+    },
+    doLogout () {
       this.$router.replace('/main/public')
       this.$store.dispatch('logout')
+      this.hideConfirmLogout()
     },
     markNotificationsAsSeen () {
       // this.$refs.notifications.markAsSeen()
