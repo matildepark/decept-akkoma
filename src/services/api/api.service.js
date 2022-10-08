@@ -68,6 +68,7 @@ const MASTODON_BLOCK_USER_URL = id => `/api/v1/accounts/${id}/block`
 const MASTODON_UNBLOCK_USER_URL = id => `/api/v1/accounts/${id}/unblock`
 const MASTODON_MUTE_USER_URL = id => `/api/v1/accounts/${id}/mute`
 const MASTODON_UNMUTE_USER_URL = id => `/api/v1/accounts/${id}/unmute`
+const MASTODON_REMOVE_USER_FROM_FOLLOWERS = id => `/api/v1/accounts/${id}/remove_from_followers`
 const MASTODON_SUBSCRIBE_USER = id => `/api/v1/pleroma/accounts/${id}/subscribe`
 const MASTODON_UNSUBSCRIBE_USER = id => `/api/v1/pleroma/accounts/${id}/unsubscribe`
 const MASTODON_SET_NOTE_URL = id => `/api/v1/accounts/${id}/note`
@@ -102,6 +103,8 @@ const PLEROMA_ANNOUNCEMENTS_URL = '/api/v1/pleroma/admin/announcements'
 const PLEROMA_POST_ANNOUNCEMENT_URL = '/api/v1/pleroma/admin/announcements'
 const PLEROMA_EDIT_ANNOUNCEMENT_URL = id => `/api/v1/pleroma/admin/announcements/${id}`
 const PLEROMA_DELETE_ANNOUNCEMENT_URL = id => `/api/v1/pleroma/admin/announcements/${id}`
+const AKKOMA_SETTING_PROFILE_URL = (name) => `/api/v1/akkoma/frontend_settings/pleroma-fe/${name}`
+const AKKOMA_SETTING_PROFILE_LIST = `/api/v1/akkoma/frontend_settings/pleroma-fe`
 
 const oldfetch = window.fetch
 
@@ -298,6 +301,13 @@ const blockUser = ({ id, credentials }) => {
 
 const unblockUser = ({ id, credentials }) => {
   return fetch(MASTODON_UNBLOCK_USER_URL(id), {
+    headers: authHeaders(credentials),
+    method: 'POST'
+  }).then((data) => data.json())
+}
+
+const removeUserFromFollowers = ({ id, credentials }) => {
+  return fetch(MASTODON_REMOVE_USER_FROM_FOLLOWERS(id), {
     headers: authHeaders(credentials),
     method: 'POST'
   }).then((data) => data.json())
@@ -1451,6 +1461,40 @@ const deleteAnnouncement = ({ id, credentials }) => {
   })
 }
 
+const getSettingsProfile = ({ profileName, credentials }) => {
+  return promisedRequest({
+    url: AKKOMA_SETTING_PROFILE_URL(profileName),
+    credentials
+  })
+}
+
+const saveSettingsProfile = ({ profileName, credentials, settings, version }) => {
+  return promisedRequest({
+    url: AKKOMA_SETTING_PROFILE_URL(profileName),
+    method: 'PUT',
+    credentials,
+    payload: {
+      settings,
+      version
+    }
+  })
+}
+
+const deleteSettingsProfile = ({ profileName, credentials }) => {
+  return promisedRequest({
+    url: AKKOMA_SETTING_PROFILE_URL(profileName),
+    method: 'DELETE',
+    credentials
+  })
+}
+
+const listSettingsProfiles = ({ credentials }) => {
+  return promisedRequest({
+    url: AKKOMA_SETTING_PROFILE_LIST,
+    credentials
+  })
+}
+
 export const getMastodonSocketURI = ({ credentials, stream, args = {} }) => {
   return Object.entries({
     ...(credentials
@@ -1589,6 +1633,7 @@ const apiService = {
   unmuteConversation,
   blockUser,
   unblockUser,
+  removeUserFromFollowers,
   fetchUser,
   fetchUserRelationship,
   favorite,
@@ -1677,7 +1722,11 @@ const apiService = {
   deleteAnnouncement,
   adminFetchAnnouncements,
   translateStatus,
-  getSupportedTranslationlanguages
+  getSupportedTranslationlanguages,
+  getSettingsProfile,
+  saveSettingsProfile,
+  listSettingsProfiles,
+  deleteSettingsProfile
 }
 
 export default apiService

@@ -54,6 +54,11 @@ const unblockUser = (store, id) => {
     .then((relationship) => store.commit('updateUserRelationship', [relationship]))
 }
 
+const removeUserFromFollowers = (store, id) => {
+  return store.rootState.api.backendInteractor.removeUserFromFollowers({ id })
+    .then((relationship) => store.commit('updateUserRelationship', [relationship]))
+}
+
 const muteUser = (store, id) => {
   const predictedRelationship = store.state.relationships[id] || { id }
   predictedRelationship.muting = true
@@ -317,6 +322,9 @@ const users = {
     unblockUser (store, id) {
       return unblockUser(store, id)
     },
+    removeUserFromFollowers (store, id) {
+      return removeUserFromFollowers(store, id)
+    },
     blockUsers (store, ids = []) {
       return Promise.all(ids.map(id => blockUser(store, id)))
     },
@@ -521,6 +529,7 @@ const users = {
           store.commit('setBackendInteractor', backendInteractorService(store.getters.getToken()))
           store.dispatch('stopFetchingNotifications')
           store.dispatch('stopFetchingFollowRequests')
+          store.dispatch('stopFetchingConfig')
           store.commit('clearNotifications')
           store.commit('resetStatuses')
           store.dispatch('setLastTimeline', 'public-timeline')
@@ -581,6 +590,10 @@ const users = {
 
               store.dispatch('setLayoutWidth', windowWidth())
               store.dispatch('setLayoutHeight', windowHeight())
+              store.dispatch('getSupportedTranslationlanguages')
+              store.dispatch('getSettingsProfile')
+              store.dispatch('listSettingsProfiles')
+              store.dispatch('startFetchingConfig')
 
               // Fetch our friends
               store.rootState.api.backendInteractor.fetchFriends({ id: user.id })
