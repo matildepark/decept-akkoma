@@ -16,7 +16,8 @@ import {
   faUsers,
   faCommentMedical,
   faBookmark,
-  faInfoCircle
+  faInfoCircle,
+  faUserTie
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -34,7 +35,8 @@ library.add(
   faUsers,
   faCommentMedical,
   faBookmark,
-  faInfoCircle
+  faInfoCircle,
+  faUserTie
 )
 
 export default {
@@ -98,6 +100,9 @@ export default {
     privateMode () { return this.$store.state.instance.private },
     shouldConfirmLogout () {
       return this.$store.getters.mergedConfig.modalOnLogout
+    },
+    showBubbleTimeline () {
+      return this.$store.state.instance.localBubbleInstances.length > 0
     }
   },
   methods: {
@@ -109,6 +114,9 @@ export default {
     },
     openSettingsModal () {
       this.$store.dispatch('openSettingsModal')
+    },
+    openModModal () {
+      this.$store.dispatch('openModModal')
     }
   }
 }

@@ -88,6 +88,9 @@ export const parseUser = (data) => {
     output.friends_count = data.following_count
 
     output.bot = data.bot
+    if (data.akkoma) {
+      output.instance = data.akkoma.instance
+    }
 
     if (data.pleroma) {
       const relationship = data.pleroma.relationship
@@ -427,6 +430,24 @@ export const parseNotification = (data) => {
   output.id = parseInt(data.id)
 
   return output
+}
+
+export const parseReport = (data) => {
+  const report = {}
+
+  report.account = parseUser(data.account)
+  report.actor = parseUser(data.actor)
+  report.statuses = data.statuses.map(parseStatus)
+  report.notes = data.notes.map(note => {
+    note.user = parseUser(note.user)
+    return note
+  })
+  report.state = data.state
+  report.content = data.content
+  report.created_at = data.created_at
+  report.id = data.id
+
+  return report
 }
 
 const isNsfw = (status) => {

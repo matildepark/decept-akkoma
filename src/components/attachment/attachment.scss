@@ -26,6 +26,7 @@
     display: flex;
     padding-top: 0.5em;
     z-index: 1;
+    max-height: 50%;
 
     p {
       flex: 1;
@@ -36,7 +37,7 @@
       white-space: pre-line;
       word-break: break-word;
       text-overflow: ellipsis;
-      overflow: hidden;
+      overflow: scroll;
     }
 
     &.-static {

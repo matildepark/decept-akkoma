@@ -55,7 +55,7 @@
             />
           </router-link>
           <router-link
-            v-if="currentUser"
+            v-if="currentUser && showBubbleTimeline"
             :to="{ name: 'bubble-timeline' }"
             class="nav-icon"
           >
@@ -149,6 +149,18 @@
             class="fa-scale-110 fa-old-padding"
             icon="cog"
             :title="$t('nav.preferences')"
+          />
+        </button>
+        <button
+          v-if="currentUser && currentUser.role === 'admin' || currentUser.role === 'moderator'"
+          class="button-unstyled nav-icon"
+          @click.stop="openModModal"
+        >
+          <FAIcon
+            fixed-width
+            class="fa-scale-110 fa-old-padding"
+            icon="user-tie"
+            :title="$t('nav.moderation')"
           />
         </button>
         <a
