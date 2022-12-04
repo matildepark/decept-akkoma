@@ -14,18 +14,18 @@ const EmojiReactions = {
     showAll: false
   }),
   computed: {
-    tooManyReactions () {
+    tooManyReactions() {
       return this.status.emoji_reactions.length > EMOJI_REACTION_COUNT_CUTOFF
     },
-    emojiReactions () {
+    emojiReactions() {
       return this.showAll
         ? this.status.emoji_reactions
         : this.status.emoji_reactions.slice(0, EMOJI_REACTION_COUNT_CUTOFF)
     },
-    showMoreString () {
+    showMoreString() {
       return `+${this.status.emoji_reactions.length - EMOJI_REACTION_COUNT_CUTOFF}`
     },
-    accountsForEmoji () {
+    accountsForEmoji() {
       return this.status.emoji_reactions.reduce((acc, reaction) => {
         if (reaction.url) {
           acc[reaction.url] = reaction.accounts || []
@@ -35,30 +35,30 @@ const EmojiReactions = {
         return acc
       }, {})
     },
-    loggedIn () {
+    loggedIn() {
       return !!this.$store.state.users.currentUser
     }
   },
   methods: {
-    toggleShowAll () {
+    toggleShowAll() {
       this.showAll = !this.showAll
     },
-    reactedWith (emoji) {
+    reactedWith(emoji) {
       return this.status.emoji_reactions.find(r => r.name === emoji).me
     },
-    fetchEmojiReactionsByIfMissing () {
+    fetchEmojiReactionsByIfMissing() {
       const hasNoAccounts = this.status.emoji_reactions.find(r => !r.accounts)
       if (hasNoAccounts) {
         this.$store.dispatch('fetchEmojiReactionsBy', this.status.id)
       }
     },
-    reactWith (emoji) {
+    reactWith(emoji) {
       this.$store.dispatch('reactWithEmoji', { id: this.status.id, emoji })
     },
-    unreact (emoji) {
+    unreact(emoji) {
       this.$store.dispatch('unreactWithEmoji', { id: this.status.id, emoji })
     },
-    emojiOnClick (emoji, event) {
+    emojiOnClick(emoji, event) {
       if (!this.loggedIn) return
 
       if (this.reactedWith(emoji)) {

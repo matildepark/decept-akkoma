@@ -12,13 +12,13 @@
         @mouseenter="fetchEmojiReactionsByIfMissing()"
       >
         <span
-          v-if="reaction.url !== null"
+          v-if="(reaction.url !== null && reaction.url !== undefined)"
         >
           <img
             :src="reaction.url"
             :title="reaction.name"
             class="reaction-emoji"
-            width="2.55em"
+            width="1.55em"
           >
           {{ reaction.count }}
         </span>
@@ -52,10 +52,11 @@
 }
 
 .unicode-emoji {
-  font-size: 210%;
+  font-size: 100%;
 }
 
 .emoji-reaction {
+  box-shadow: var(--inputShadow);
   padding: 0 0.5em;
   margin-right: 0.5em;
   margin-top: 0.5em;
@@ -64,7 +65,7 @@
   justify-content: center;
   box-sizing: border-box;
   .reaction-emoji {
-    width: 2.55em !important;
+    width: 1.55em !important;
     margin-right: 0.25em;
   }
   &:focus {
@@ -93,7 +94,6 @@
 }
 
 .button-default.picked-reaction {
-  border: 1px solid var(--accent, $fallback--link);
   margin-left: -1px; // offset the border, can't use inset shadows either
   margin-right: calc(0.5em - 1px);
 }

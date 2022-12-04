@@ -2,7 +2,7 @@
   "alwaysShowSubjectInput": true,
   "background": "/static/aurora_borealis.jpg",
   "collapseMessageWithSubject": false,
-  "greentext": false,
+  "greentext": true,
   "hideFilteredStatuses": false,
   "hideMutedPosts": false,
   "hidePostStats": false,
@@ -21,6 +21,6 @@
   "showInstanceSpecificPanel": false,
   "sidebarRight": false,
   "subjectLineBehavior": "email",
-  "theme": "ihatebeingalive",
+  "theme": "decept.org",
   "webPushNotifications": false
 }
