@@ -24,6 +24,8 @@ import ListEdit from 'components/list_edit/list_edit.vue'
 import AnnouncementsPage from 'components/announcements_page/announcements_page.vue'
 import RegistrationRequestSent from 'components/registration_request_sent/registration_request_sent.vue'
 import AwaitingEmailConfirmation from 'components/awaiting_email_confirmation/awaiting_email_confirmation.vue'
+import RealTerms from 'components/real_terms_of_service/terms.vue'
+import MRFTransparencyPanel from 'components/mrf_transparency_panel/mrf_transparency_panel.vue'
 
 export default (store) => {
   const validateAuthenticatedRoute = (to, from, next) => {
@@ -35,7 +37,8 @@ export default (store) => {
   }
 
   let routes = [
-    { name: 'root',
+    {
+      name: 'root',
       path: '/',
       redirect: _to => {
         return (store.state.users.currentUser
@@ -50,12 +53,14 @@ export default (store) => {
     { name: 'tag-timeline', path: '/tag/:tag', component: TagTimeline },
     { name: 'bookmarks', path: '/bookmarks', component: BookmarkTimeline },
     { name: 'conversation', path: '/notice/:id', component: ConversationPage, meta: { dontScroll: true } },
-    { name: 'remote-user-profile-acct',
+    {
+      name: 'remote-user-profile-acct',
       path: '/remote-users/:_(@)?:username([^/@]+)@:hostname([^/@]+)',
       component: RemoteUserResolver,
       beforeEnter: validateAuthenticatedRoute
     },
-    { name: 'remote-user-profile',
+    {
+      name: 'remote-user-profile',
       path: '/remote-users/:hostname/:username',
       component: RemoteUserResolver,
       beforeEnter: validateAuthenticatedRoute
@@ -79,7 +84,9 @@ export default (store) => {
     { name: 'list-timeline', path: '/lists/:id', component: ListTimeline },
     { name: 'list-edit', path: '/lists/:id/edit', component: ListEdit },
     { name: 'announcements', path: '/announcements', component: AnnouncementsPage },
-    { name: 'user-profile', path: '/:_(users)?/:name', component: UserProfile, meta: { dontScroll: true } }
+    { name: 'user-profile', path: '/:_(users)?/:name', component: UserProfile, meta: { dontScroll: true } },
+    { name: 'federation', path: '/federation', component: MRFTransparencyPanel },
+    { name: 'terms-of-service', path: '/terms', component: RealTerms }
   ]
 
   return routes

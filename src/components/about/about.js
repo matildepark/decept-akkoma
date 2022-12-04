@@ -11,18 +11,17 @@ const About = {
     FeaturesPanel,
     TermsOfServicePanel,
     StaffPanel,
-    MRFTransparencyPanel,
     LocalBubblePanel
   },
   computed: {
-    showFeaturesPanel () { return this.$store.state.instance.showFeaturesPanel },
-    showInstanceSpecificPanel () {
+    showFeaturesPanel() { return this.$store.state.instance.showFeaturesPanel },
+    showInstanceSpecificPanel() {
       return this.$store.state.instance.showInstanceSpecificPanel &&
         !this.$store.getters.mergedConfig.hideISP &&
         this.$store.state.instance.instanceSpecificPanelContent
     },
-    showLocalBubblePanel () {
-      return this.$store.state.instance.localBubbleInstances.length > 0
+    showLocalBubblePanel() {
+      return this.$store.state.instance.localBubbleInstances?.length > 0
     }
   }
 }

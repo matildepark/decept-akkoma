@@ -53,7 +53,7 @@
           :bound-to="{ x: 'container' }"
           remove-padding
         >
-          <template v-slot:trigger>
+          <template #trigger>
             <button
               class="btn button-default"
               :title="$t('general.close')"
@@ -65,7 +65,7 @@
               />
             </button>
           </template>
-          <template v-slot:content="{close}">
+          <template #content="{close}">
             <div class="dropdown-menu">
               <button
                 class="button-default dropdown-item dropdown-item-icon"
@@ -118,11 +118,18 @@
           :aria-label="$t('login.logout')"
           @click.prevent="logout"
         >
-          <FAIcon
-            fixed-width
-            class="fa-scale-110 fa-old-padding"
-            icon="sign-out-alt"
-          />
+          <svg
+            style="display:inline-block;vertical-align:middle;margin-right: 8px;"
+            fill="var(--text, #d8a070)"
+            width="16px"
+            height="16px"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M11.0355 7.5L7.64641 4.11092L8.35352 3.40381L12.9497 8L8.35352 12.5962L7.64641 11.8891L11.0355 8.5L3.75732 8.5L3.75732 7.5H11.0355Z"
+            />
+          </svg>
           <span>{{ $t('login.logout') }}</span>
         </button>
       </div>

@@ -26,7 +26,17 @@
         class="delete-option button-unstyled -hover-highlight"
         @click="deleteOption(index)"
       >
-        <FAIcon icon="times" />
+        <svg
+          style="display:inline-block;vertical-align:middle;"
+          width="16px"
+          height="16px"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M7.29289 7.99995L3.75747 11.5354L4.46458 12.2425L8 8.70706L11.5355 12.2426L12.2426 11.5355L8.70711 7.99995L12.2428 4.46431L11.5356 3.7572L8 7.29285L4.46443 3.75728L3.75732 4.46438L7.29289 7.99995Z"
+          />
+        </svg>
       </button>
     </div>
     <button
@@ -34,10 +44,18 @@
       class="add-option faint button-unstyled -hover-highlight"
       @click="addOption"
     >
-      <FAIcon
-        icon="plus"
-        size="sm"
-      />
+      <svg
+        style="display:inline-block;vertical-align:middle;"
+        width="16px"
+        height="16px"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M7.5 8.5V13.5H8.5V8.5H13.5V7.5H8.5V2.5H7.5V7.5H2.5V8.5H7.5Z"
+        />
+
+      </svg>
 
       {{ $t("polls.add_option") }}
     </button>

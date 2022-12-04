@@ -153,7 +153,7 @@ const Status = {
     'controlledSetMediaPlaying',
     'dive'
   ],
-  data () {
+  data() {
     return {
       uncontrolledReplying: false,
       uncontrolledQuoting: false,
@@ -167,82 +167,82 @@ const Status = {
   },
   computed: {
     ...controlledOrUncontrolledGetters(['replying', 'quoting', 'mediaPlaying']),
-    muteWords () {
+    muteWords() {
       return this.mergedConfig.muteWords
     },
-    showReasonMutedThread () {
+    showReasonMutedThread() {
       return (
         this.status.thread_muted ||
-          (this.status.reblog && this.status.reblog.thread_muted)
+        (this.status.reblog && this.status.reblog.thread_muted)
       ) && !this.inConversation
     },
-    repeaterClass () {
+    repeaterClass() {
       const user = this.statusoid.user
       return highlightClass(user)
     },
-    userClass () {
+    userClass() {
       const user = this.retweet ? (this.statusoid.retweeted_status.user) : this.statusoid.user
       return highlightClass(user)
     },
-    deleted () {
+    deleted() {
       return this.statusoid.deleted
     },
-    repeaterStyle () {
+    repeaterStyle() {
       const user = this.statusoid.user
       const highlight = this.mergedConfig.highlight
       return highlightStyle(highlight[user.screen_name])
     },
-    userStyle () {
+    userStyle() {
       if (this.noHeading) return
       const user = this.retweet ? (this.statusoid.retweeted_status.user) : this.statusoid.user
       const highlight = this.mergedConfig.highlight
       return highlightStyle(highlight[user.screen_name])
     },
-    userProfileLink () {
+    userProfileLink() {
       return this.generateUserProfileLink(this.status.user.id, this.status.user.screen_name)
     },
-    replyProfileLink () {
+    replyProfileLink() {
       if (this.isReply) {
         const user = this.$store.getters.findUser(this.status.in_reply_to_user_id)
         // FIXME Why user not found sometimes???
         return user ? user.statusnet_profile_url : 'NOT_FOUND'
       }
     },
-    retweet () { return !!this.statusoid.retweeted_status },
-    retweeterUser () { return this.statusoid.user },
-    retweeter () { return this.statusoid.user.name || this.statusoid.user.screen_name_ui },
-    retweeterHtml () { return this.statusoid.user.name },
-    retweeterProfileLink () { return this.generateUserProfileLink(this.statusoid.user.id, this.statusoid.user.screen_name) },
-    status () {
+    retweet() { return !!this.statusoid.retweeted_status },
+    retweeterUser() { return this.statusoid.user },
+    retweeter() { return this.statusoid.user.name || this.statusoid.user.screen_name_ui },
+    retweeterHtml() { return this.statusoid.user.name },
+    retweeterProfileLink() { return this.generateUserProfileLink(this.statusoid.user.id, this.statusoid.user.screen_name) },
+    status() {
       if (this.retweet) {
         return this.statusoid.retweeted_status
       } else {
         return this.statusoid
       }
     },
-    statusFromGlobalRepository () {
+    statusFromGlobalRepository() {
       // NOTE: Consider to replace status with statusFromGlobalRepository
       return this.$store.state.statuses.allStatusesObject[this.status.id]
     },
-    loggedIn () {
+    loggedIn() {
       return !!this.currentUser
     },
-    muteWordHits () {
+    muteWordHits() {
       return muteWordHits(this.status, this.muteWords)
     },
-    rtBotStatus () {
+    rtBotStatus() {
       return this.statusoid.user.bot
     },
-    botStatus () {
+    botStatus() {
       return this.status.user.bot
     },
-    botIndicator () {
+    botIndicator() {
       return this.botStatus && !this.hideBotIndication
     },
-    rtBotIndicator () {
+    rtBotIndicator() {
       return this.rtBotStatus && !this.hideBotIndication
     },
-    mentionsLine () {
+    mentionsLine() {
       if (!this.headTailLinks) return []
       const writtenSet = new Set(this.headTailLinks.writtenMentions.map(_ => _.url))
       return this.status.attentions.filter(attn => {
@@ -258,10 +258,10 @@ const Status = {
         userId: attn.id
       }))
     },
-    hasMentionsLine () {
+    hasMentionsLine() {
       return this.mentionsLine.length > 0
     },
-    mentionsBlockedUser () {
+    mentionsBlockedUser() {
       // XXX: doesn't work on domain blocks, because users from blocked domains
       // don't appear in `attentions' and therefore cannot be filtered.
       let mentions = false
@@ -277,7 +277,7 @@ const Status = {
 
       return mentions
     },
-    mentionsMutedUser () {
+    mentionsMutedUser() {
       // XXX: doesn't work on domain blocks, because users from blocked domains
       // don't appear in `attentions' and therefore cannot be filtered.
       let mentions = false
@@ -293,7 +293,7 @@ const Status = {
 
       return mentions
     },
-    muted () {
+    muted() {
       if (this.statusoid.user.id === this.currentUser.id) return false
       const reasonsToMute = this.userIsMuted ||
         // Thread is muted
@@ -308,7 +308,7 @@ const Status = {
         this.mentionsMutedUser
       return !this.unmuted && !this.shouldNotMute && reasonsToMute
     },
-    userIsMuted () {
+    userIsMuted() {
       if (this.statusoid.user.id === this.currentUser.id) return false
       const { status } = this
       const { reblog } = status
@@ -322,7 +322,7 @@ const Status = {
         // Muted user of a reprööt
         (relationshipReblog && relationshipReblog.muting)
     },
-    shouldNotMute () {
+    shouldNotMute() {
       const { status } = this
       const { reblog } = status
       return (
@@ -339,22 +339,22 @@ const Status = {
         // No excuses if post has muted words
       ) && !this.muteWordHits.length > 0
     },
-    hideMutedUsers () {
+    hideMutedUsers() {
       return this.mergedConfig.hideMutedPosts
     },
-    hideMutedThreads () {
+    hideMutedThreads() {
       return this.mergedConfig.hideMutedThreads
     },
-    hideFilteredStatuses () {
+    hideFilteredStatuses() {
       return this.mergedConfig.hideFilteredStatuses
     },
-    hideThreadsWithBlockedUsers () {
+    hideThreadsWithBlockedUsers() {
       return this.mergedConfig.hideThreadsWithBlockedUsers
     },
-    hideWordFilteredPosts () {
+    hideWordFilteredPosts() {
       return this.mergedConfig.hideWordFilteredPosts
     },
-    hideStatus () {
+    hideStatus() {
       return (!this.shouldNotMute) && (
         (this.muted && this.hideFilteredStatuses) ||
         (this.userIsMuted && this.hideMutedUsers) ||
@@ -363,7 +363,7 @@ const Status = {
         (this.mentionsBlockedUser && this.hideThreadsWithBlockedUsers)
       )
     },
-    isFocused () {
+    isFocused() {
       // retweet or root of an expanded conversation
       if (this.focused) {
         return true
@@ -373,10 +373,10 @@ const Status = {
       // use conversation highlight only when in conversation
       return this.status.id === this.highlight
     },
-    isReply () {
+    isReply() {
       return !!(this.status.in_reply_to_status_id && this.status.in_reply_to_user_id)
     },
-    replyToName () {
+    replyToName() {
       if (this.status.in_reply_to_screen_name) {
         return this.status.in_reply_to_screen_name
       } else {
@@ -384,7 +384,7 @@ const Status = {
         return user && user.screen_name_ui
       }
     },
-    replySubject () {
+    replySubject() {
       if (!this.status.summary) return ''
       const decodedSummary = unescape(this.status.summary)
       const behavior = this.mergedConfig.subjectLineBehavior
@@ -397,7 +397,7 @@ const Status = {
         return ''
       }
     },
-    combinedFavsAndRepeatsUsers () {
+    combinedFavsAndRepeatsUsers() {
       // Use the status from the global status repository since favs and repeats are saved in it
       const combinedUsers = [].concat(
         this.statusFromGlobalRepository.favoritedBy,
@@ -405,62 +405,62 @@ const Status = {
       )
       return uniqBy(combinedUsers, 'id')
     },
-    tags () {
+    tags() {
       return this.status.tags.filter(tagObj => tagObj.hasOwnProperty('name')).map(tagObj => tagObj.name).join(' ')
     },
-    hidePostStats () {
+    hidePostStats() {
       return this.mergedConfig.hidePostStats
     },
-    muteBotStatuses () {
+    muteBotStatuses() {
       return this.mergedConfig.muteBotStatuses
     },
-    hideBotIndication () {
+    hideBotIndication() {
       return this.mergedConfig.hideBotIndication
     },
-    currentUser () {
+    currentUser() {
       return this.$store.state.users.currentUser
     },
-    betterShadow () {
+    betterShadow() {
       return this.$store.state.interface.browserSupport.cssFilter
     },
-    mergedConfig () {
+    mergedConfig() {
       return this.$store.getters.mergedConfig
     },
-    isSuspendable () {
+    isSuspendable() {
       return !this.replying && this.mediaPlaying.length === 0
     },
-    inThreadForest () {
+    inThreadForest() {
       return !!this.controlledThreadDisplayStatus
     },
-    threadShowing () {
+    threadShowing() {
       return this.controlledThreadDisplayStatus === 'showing'
     },
-    visibilityLocalized () {
+    visibilityLocalized() {
       return this.$i18n.t('general.scope_in_timeline.' + this.status.visibility)
     },
-    isEdited () {
+    isEdited() {
       return this.status.edited_at !== null
     },
-    editingAvailable () {
+    editingAvailable() {
       return this.$store.state.instance.editingAvailable
     }
   },
   methods: {
-    visibilityIcon (visibility) {
+    visibilityIcon(visibility) {
       switch (visibility) {
         case 'private':
-          return 'lock'
+          return 'la-lock'
         case 'unlisted':
-          return 'lock-open'
+          return 'la-lock-open'
         case 'direct':
-          return 'envelope'
+          return 'la-at'
         case 'local':
-          return 'users'
+          return 'la-users'
         default:
-          return 'globe'
+          return 'la-globe-americas'
       }
     },
-    faviconAlt (status) {
+    faviconAlt(status) {
       if (!status.user.instance) {
         return ''
       }
@@ -470,48 +470,48 @@ const Status = {
       }
       return ''
     },
-    showError (error) {
+    showError(error) {
       this.error = error
     },
-    clearError () {
+    clearError() {
       this.error = undefined
     },
-    toggleReplying () {
+    toggleReplying() {
       controlledOrUncontrolledToggle(this, 'replying')
     },
-    toggleQuoting () {
+    toggleQuoting() {
       controlledOrUncontrolledToggle(this, 'quoting')
     },
-    gotoOriginal (id) {
+    gotoOriginal(id) {
       if (this.inConversation) {
         this.$emit('goto', id)
       }
     },
-    toggleExpanded () {
+    toggleExpanded() {
       this.$emit('toggleExpanded')
     },
-    toggleMute () {
+    toggleMute() {
       this.unmuted = !this.unmuted
     },
-    toggleUserExpanded () {
+    toggleUserExpanded() {
       this.userExpanded = !this.userExpanded
     },
-    generateUserProfileLink (id, name) {
+    generateUserProfileLink(id, name) {
       return generateProfileLink(id, name, this.$store.state.instance.restrictedNicknames)
     },
-    addMediaPlaying (id) {
+    addMediaPlaying(id) {
       controlledOrUncontrolledSet(this, 'mediaPlaying', this.mediaPlaying.concat(id))
     },
-    removeMediaPlaying (id) {
+    removeMediaPlaying(id) {
       controlledOrUncontrolledSet(this, 'mediaPlaying', this.mediaPlaying.filter(mediaId => mediaId !== id))
     },
-    setHeadTailLinks (headTailLinks) {
+    setHeadTailLinks(headTailLinks) {
       this.headTailLinks = headTailLinks
     },
-    toggleThreadDisplay () {
+    toggleThreadDisplay() {
       this.controlledToggleThreadDisplay()
     },
-    scrollIfHighlighted (highlightId) {
+    scrollIfHighlighted(highlightId) {
       const id = highlightId
       if (this.status.id === id) {
         let rect = this.$el.getBoundingClientRect()

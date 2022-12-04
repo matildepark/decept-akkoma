@@ -57,7 +57,7 @@ export const defaultState = {
   pauseOnUnfocused: true,
   stopGifs: undefined,
   replyVisibility: 'all',
-  thirdColumnMode: 'notifications',
+  thirdColumnMode: 'none',
   notificationVisibility: {
     follows: true,
     mentions: true,
@@ -128,7 +128,7 @@ export const instanceDefaultProperties = Object.entries(defaultState)
 const config = {
   state: { ...defaultState },
   getters: {
-    defaultConfig (state, getters, rootState, rootGetters) {
+    defaultConfig(state, getters, rootState, rootGetters) {
       const { instance } = rootState
       return {
         ...defaultState,
@@ -137,7 +137,7 @@ const config = {
         )
       }
     },
-    mergedConfig (state, getters, rootState, rootGetters) {
+    mergedConfig(state, getters, rootState, rootGetters) {
       const { defaultConfig } = rootGetters
       return {
         ...defaultConfig,
@@ -147,10 +147,10 @@ const config = {
     }
   },
   mutations: {
-    setOption (state, { name, value }) {
+    setOption(state, { name, value }) {
       state[name] = value
     },
-    setHighlight (state, { user, color, type }) {
+    setHighlight(state, { user, color, type }) {
       const data = this.state.config.highlight[user]
       if (color || type) {
         state.highlight[user] = { color: color || data.color, type: type || data.type }
@@ -191,12 +191,12 @@ const config = {
         console.error(err)
       })
     },
-    deleteSettingsProfile (store, name) {
+    deleteSettingsProfile(store, name) {
       store.rootState.api.backendInteractor.deleteSettingsProfile({ profileName: name }).then(() => {
         store.dispatch('listSettingsProfiles')
       })
     },
-    loadSettings ({ dispatch }, data) {
+    loadSettings({ dispatch }, data) {
       const knownKeys = new Set(Object.keys(defaultState))
       const presentKeys = new Set(Object.keys(data))
       const intersection = new Set()
@@ -210,10 +210,10 @@ const config = {
         name => dispatch('setOption', { name, value: data[name] })
       )
     },
-    setHighlight ({ commit, dispatch }, { user, color, type }) {
+    setHighlight({ commit, dispatch }, { user, color, type }) {
       commit('setHighlight', { user, color, type })
     },
-    setOption ({ commit, dispatch }, { name, value, manual }) {
+    setOption({ commit, dispatch }, { name, value, manual }) {
       commit('setOption', { name, value })
       if (manual === true) {
         dispatch('syncSettings')
@@ -236,7 +236,7 @@ const config = {
           break
       }
     },
-    getSettingsProfile (store, forceUpdate = false) {
+    getSettingsProfile(store, forceUpdate = false) {
       const profile = store.state.profile
       store.rootState.api.backendInteractor.getSettingsProfile({ store, profileName: profile })
         .then(({ settings, version }) => {

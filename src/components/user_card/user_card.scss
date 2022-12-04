@@ -111,6 +111,7 @@
     }
 
     .Avatar {
+      box-shadow: var(--_avatarShadowBox);
       --_avatarShadowBox: var(--avatarShadow);
       --_avatarShadowFilter: var(--avatarShadowFilter);
       --_avatarShadowInset: var(--avatarShadowInset);

@@ -159,15 +159,20 @@
     .svg-inline--fa {
       margin-left: 0.25em;
     }
+    .visibility-icon {
+      opacity: 0.5;
+    }
   }
 
   .glued-label {
     display: inline-flex;
     white-space: nowrap;
+    align-items: center;
   }
 
   .timeago {
     margin-right: 0.2em;
+    opacity: 0.5;
   }
 
   & .heading-reply-row,
@@ -185,7 +190,7 @@
   & .reply-to-no-popover,
   & .mentions {
     min-width: 0;
-    margin-right: 0.4em;
+    margin-right: 0.25em;
     flex-shrink: 0;
   }
 

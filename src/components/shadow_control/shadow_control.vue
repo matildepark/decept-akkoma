@@ -78,10 +78,17 @@
           :disabled="!ready || !present"
           @click="del"
         >
-          <FAIcon
-            fixed-width
-            icon="times"
-          />
+          <svg
+            stroke="var(--Text,#000000"
+            width="16px"
+            height="16px"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M7.29289 7.99995L3.75747 11.5354L4.46458 12.2425L8 8.70706L11.5355 12.2426L12.2426 11.5355L8.70711 7.99995L12.2428 4.46431L11.5356 3.7572L8 7.29285L4.46443 3.75728L3.75732 4.46438L7.29289 7.99995Z"
+            />
+          </svg>
         </button>
         <button
           class="btn button-default"
@@ -215,7 +222,7 @@
   </div>
 </template>
 
-<script src="./shadow_control.js" ></script>
+<script src="./shadow_control.js"></script>
 
 <style lang="scss">
 @import '../../_variables.scss';

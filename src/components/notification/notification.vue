@@ -70,18 +70,17 @@
             </span>
             {{ ' ' }}
             <span v-if="notification.type === 'like'">
-              <FAIcon
-                class="type-icon"
-                icon="star"
+              <i
+                style="font-size:16px;"
+                class="las la-check-double"
               />
               {{ ' ' }}
               <small>{{ $t('notifications.favorited_you') }}</small>
             </span>
             <span v-if="notification.type === 'repeat'">
-              <FAIcon
-                class="type-icon"
-                icon="retweet"
-                :title="$t('tool_tip.repeat')"
+              <i
+                style="font-size:16px;"
+                class="RetweetButton las la-retweet"
               />
               {{ ' ' }}
               <small>{{ $t('notifications.repeated_you') }}</small>
@@ -207,10 +206,17 @@
               :title="$t('tool_tip.reject_follow_request')"
               @click="denyUser()"
             >
-              <FAIcon
-                icon="times"
-                class="fa-scale-110 fa-old-padding follow-request-reject"
-              />
+              <svg
+                stroke="var(--Text,#000000"
+                width="16px"
+                height="16px"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M7.29289 7.99995L3.75747 11.5354L4.46458 12.2425L8 8.70706L11.5355 12.2426L12.2426 11.5355L8.70711 7.99995L12.2428 4.46431L11.5356 3.7572L8 7.29285L4.46443 3.75728L3.75732 4.46438L7.29289 7.99995Z"
+                />
+              </svg>
             </button>
           </div>
         </div>

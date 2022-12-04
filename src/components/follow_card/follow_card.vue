@@ -5,7 +5,7 @@
         v-if="isMe || (!noFollowsYou && relationship.followed_by)"
         class="faint"
       >
-        {{ isMe ? $t('user_card.its_you') : $t('user_card.follows_you') }}
+        {{ isMe ? $t('user_card.its_you') : null }}
       </span>
       <template v-if="!loggedIn">
         <div

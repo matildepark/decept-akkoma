@@ -11,9 +11,9 @@
       type="button"
       @click="changeVis('direct')"
     >
-      <FAIcon
-        icon="envelope"
-        class="fa-scale-110 fa-old-padding"
+      <i
+        class="las la-at"
+        style="font-size: 16px;"
       />
     </button>
     {{ ' ' }}
@@ -25,9 +25,9 @@
       type="button"
       @click="changeVis('private')"
     >
-      <FAIcon
-        icon="lock"
-        class="fa-scale-110 fa-old-padding"
+      <i
+        class="las la-lock"
+        style="font-size: 16px;"
       />
     </button>
     {{ ' ' }}
@@ -39,9 +39,9 @@
       type="button"
       @click="changeVis('unlisted')"
     >
-      <FAIcon
-        icon="lock-open"
-        class="fa-scale-110 fa-old-padding"
+      <i
+        class="las la-lock-open"
+        style="font-size: 16px;"
       />
     </button>
     {{ ' ' }}
@@ -53,11 +53,12 @@
       type="button"
       @click="changeVis('public')"
     >
-      <FAIcon
-        icon="globe"
-        class="fa-scale-110 fa-old-padding"
+      <i
+        class="las la-globe-americas"
+        style="font-size: 16px;"
       />
     </button>
+    {{ ' ' }}
     <button
       v-if="showLocal"
       class="button-unstyled scope"
@@ -66,9 +67,9 @@
       type="button"
       @click="changeVis('local')"
     >
-      <FAIcon
-        icon="users"
-        class="fa-scale-110 fa-old-padding"
+      <i
+        class="las la-users"
+        style="font-size: 16px;"
       />
     </button>
   </div>
@@ -88,10 +89,13 @@
     min-height: 1.3em;
     text-align: center;
 
-    &.selected svg {
-      color: $fallback--lightText;
-      color: var(--lightText, $fallback--lightText);
-    }
+    i {
+       color: $fallback--lightText;
+     }
+
+     &.selected i {
+       color: darken($fallback--lightText, 50%);
+     }
   }
 }
 </style>

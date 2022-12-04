@@ -53,7 +53,7 @@
   </div>
 </template>
 
-<script src="./timeline_menu_tabs.js" ></script>
+<script src="./timeline_menu_tabs.js"></script>
 
 <style lang="scss">
 @import '../../_variables.scss';
@@ -82,7 +82,6 @@
     margin-left: 1em;
     font-size: 1.2em;
     font-weight: bold;
-    color: var(--selectedMenuText, $fallback--text);
     color: var(--selectedMenuText, $fallback--text);
     --lightText: var(--selectedMenuLightText, $fallback--lightText);
   }

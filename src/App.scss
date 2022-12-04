@@ -1,6 +1,8 @@
 // stylelint-disable rscss/class-format
 @import './_variables.scss';
 
+@font-face{font-family:Geneva;font-style:normal;font-weight:400;src:local('Geneva'),url('/static/Geneva.woff') format('woff')}
+
 :root {
   --navbar-height: 3.5rem;
   --post-line-height: 1.4;
@@ -25,78 +27,6 @@ body {
 
   &.hidden {
     display: none;
-  }
-}
-
-// ## Custom scrollbars
-// Only show custom scrollbars on devices which
-// have a cursor/pointer to operate them
-@media (any-pointer: fine) {
-  * {
-    scrollbar-color: var(--btn) transparent;
-
-    &::-webkit-scrollbar {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-button,
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--btn);
-      box-shadow: var(--buttonShadow);
-      border-radius: var(--btnRadius);
-    }
-
-    // horizontal/vertical/increment/decrement are webkit-specific stuff
-    // that indicates whether we're affecting vertical scrollbar, increase button etc
-    // stylelint-disable selector-pseudo-class-no-unknown
-    &::-webkit-scrollbar-button {
-      --___bgPadding: 2px;
-
-      color: var(--btnText);
-      background-repeat: no-repeat, no-repeat;
-
-      &:horizontal {
-        background-size: 50% calc(50% - var(--___bgPadding)), 50% calc(50% - var(--___bgPadding));
-
-        &:increment {
-          background-image:
-            linear-gradient(45deg, var(--btnText) 50%, transparent 51%),
-            linear-gradient(-45deg, transparent 50%, var(--btnText) 51%);
-          background-position: top var(--___bgPadding) left 50%, right 50% bottom var(--___bgPadding);
-        }
-
-        &:decrement {
-          background-image:
-            linear-gradient(45deg, transparent 50%, var(--btnText) 51%),
-            linear-gradient(-45deg, var(--btnText) 50%, transparent 51%);
-          background-position: bottom var(--___bgPadding) right 50%, left 50% top var(--___bgPadding);
-        }
-      }
-
-      &:vertical {
-        background-size: calc(50% - var(--___bgPadding)) 50%, calc(50% - var(--___bgPadding)) 50%;
-
-        &:increment {
-          background-image:
-            linear-gradient(-45deg, transparent 50%, var(--btnText) 51%),
-            linear-gradient(45deg, transparent 50%, var(--btnText) 51%);
-          background-position: right var(--___bgPadding) top 50%, left var(--___bgPadding) top 50%;
-        }
-
-        &:decrement {
-          background-image:
-            linear-gradient(-45deg, var(--btnText) 50%, transparent 51%),
-            linear-gradient(45deg, var(--btnText) 50%, transparent 51%);
-          background-position: left var(--___bgPadding) top 50%, right var(--___bgPadding) top 50%;
-        }
-      }
-    }
-    // stylelint-enable selector-pseudo-class-no-unknown
-  }
-  // Body should have background to scrollbar otherwise it will use white (body color?)
-  html {
-    scrollbar-color: var(--selectedMenu) var(--wallpaper);
-    background: var(--wallpaper);
   }
 }
 
@@ -834,4 +764,9 @@ option {
 .fade-enter-from,
 .fade-leave-active {
   opacity: 0;
+}
+
+.animate-spin {
+  animation: spin 1s infinite ease;
+  display: inline-block;
 }

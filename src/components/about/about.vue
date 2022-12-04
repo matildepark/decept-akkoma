@@ -1,15 +1,23 @@
 <template>
-  <div class="column-inner">
+  <div class="sidebar">
     <instance-specific-panel v-if="showInstanceSpecificPanel" />
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="tos-content spiral">
+          <img
+            src="/static/spiral2_transparent.png"
+            style="display:block;text-align:center;margin:1rem auto; max-width: 100%;"
+          >
+        </div>
+      </div>
+    </div>
     <staff-panel />
     <terms-of-service-panel />
-    <LocalBubblePanel v-if="showLocalBubblePanel" />
-    <MRFTransparencyPanel />
     <features-panel v-if="showFeaturesPanel" />
   </div>
 </template>
 
-<script src="./about.js" ></script>
+<script src="./about.js"></script>
 
 <style lang="scss">
 </style>

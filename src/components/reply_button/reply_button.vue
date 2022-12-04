@@ -7,9 +7,10 @@
       :title="$t('tool_tip.reply')"
       @click.prevent="$emit('toggle')"
     >
-      <FAIcon
-        class="fa-scale-110 fa-old-padding"
-        icon="reply"
+      <i
+        class="ReplyButton las la-reply"
+        style="font-size:16px;"
+        :title="$t('tool_tip.reply')"
       />
     </button>
     <a
@@ -19,9 +20,9 @@
       role="button"
       :href="remoteInteractionLink"
     >
-      <FAIcon
-        icon="reply"
-        class="fa-scale-110 fa-old-padding"
+      <i
+        class="ReplyButton las la-reply"
+        style="font-size:16px;"
         :title="$t('tool_tip.reply')"
       />
     </a>
@@ -53,8 +54,8 @@
   }
 
   .interactive {
-    &:hover .svg-inline--fa,
-    &.-active .svg-inline--fa {
+    &:hover,
+    &.-active {
       color: $fallback--cBlue;
       color: var(--cBlue, $fallback--cBlue);
     }

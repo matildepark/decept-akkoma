@@ -12,23 +12,33 @@
           class="button-unstyled mobile-nav-button"
           @click.stop.prevent="toggleMobileSidebar()"
         >
-          <FAIcon
-            class="fa-scale-110 fa-old-padding"
-            icon="bars"
-          />
+          <svg
+            fill="var(--topBarLink)"
+            style="margin-top:16px;"
+            height="16px"
+            width="16px"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M14 8.5H2V7.5H14V8.5Z"
+            />
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M2 2.5H14V3.5H2V2.5Z"
+            />
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M14 13.5H2V12.5H14V13.5Z"
+            />
+          </svg>
           <div
             v-if="unreadAnnouncementCount"
             class="alert-dot"
           />
         </button>
-        <router-link
-          v-if="!hideSiteName"
-          class="site-name"
-          :to="{ name: 'root' }"
-          active-class="home"
-        >
-          {{ sitename }}
-        </router-link>
       </div>
       <div class="item right">
         <button
@@ -36,10 +46,7 @@
           class="button-unstyled mobile-nav-button"
           @click.stop.prevent="openMobileNotifications()"
         >
-          <FAIcon
-            class="fa-scale-110 fa-old-padding"
-            icon="bell"
-          />
+          <i class="las la-bell" style="color: var(--topBarLink,#d8a070)"></i>
           <div
             v-if="unseenNotificationsCount"
             class="alert-dot"
@@ -60,10 +67,18 @@
           class="mobile-nav-button"
           @click.stop.prevent="closeMobileNotifications()"
         >
-          <FAIcon
-            class="fa-scale-110 fa-old-padding"
-            icon="times"
-          />
+          <svg
+            style="margin-left:0.5rem;margin-right: 0.5rem;"
+            stroke="var(--topBarLink,#d8a070)"
+            width="16px"
+            height="16px"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M7.29289 7.99995L3.75747 11.5354L4.46458 12.2425L8 8.70706L11.5355 12.2426L12.2426 11.5355L8.70711 7.99995L12.2428 4.46431L11.5356 3.7572L8 7.29285L4.46443 3.75728L3.75732 4.46438L7.29289 7.99995Z"
+            />
+          </svg>
         </a>
       </div>
       <div

@@ -9,9 +9,9 @@
       :title="$t('tool_tip.quote')"
       @click.prevent="$emit('toggle')"
     >
-      <FAIcon
-        class="fa-scale-110 fa-old-padding"
-        icon="quote-left"
+      <i
+        class="las la-quote-right"
+        style="font-size:16px;"
       />
     </button>
   </div>
@@ -36,8 +36,8 @@
   }
 
   .interactive {
-    &:hover .svg-inline--fa,
-    &.-active .svg-inline--fa {
+    &:hover,
+    &.-active {
       color: $fallback--cBlue;
       color: var(--cBlue, $fallback--cBlue);
     }

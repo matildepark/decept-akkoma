@@ -14,7 +14,17 @@
         class="fa-scale-110 fa-old-padding"
         @click="clearError"
       >
-        <FAIcon icon="times" />
+        <svg
+          stroke="var(--Text,#000000"
+          width="16px"
+          height="16px"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M7.29289 7.99995L3.75747 11.5354L4.46458 12.2425L8 8.70706L11.5355 12.2426L12.2426 11.5355L8.70711 7.99995L12.2428 4.46431L11.5356 3.7572L8 7.29285L4.46443 3.75728L3.75732 4.46438L7.29289 7.99995Z"
+          />
+        </svg>
       </span>
     </div>
     <template v-if="muted && !isPreview">
@@ -197,12 +207,12 @@
                 <span
                   v-if="status.visibility"
                   class="visibility-icon"
-                  :title="visibilityLocalized"
+                  :title="status.visibility | capitalize"
                 >
-                  <FAIcon
-                    fixed-width
-                    class="fa-scale-110"
-                    :icon="visibilityIcon(status.visibility)"
+                  <i
+                    style="font-size: 16px;vertical-align:middle;margin-left:0.5em;margin-right:0.5em;"
+                    class="las"
+                    :class="visibilityIcon(status.visibility)"
                   />
                 </span>
                 <button
@@ -211,11 +221,18 @@
                   :title="$t('status.expand')"
                   @click.prevent="toggleExpanded"
                 >
-                  <FAIcon
-                    fixed-width
-                    class="fa-scale-110"
-                    icon="plus-square"
-                  />
+                  <svg
+                    style="display:inline-block;vertical-align:middle;"
+                    color="var(--Text)"
+                    height="16px"
+                    width="16px"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M7.5 8.5V13.5H8.5V8.5H13.5V7.5H8.5V2.5H7.5V7.5H2.5V8.5H7.5Z"
+                    />
+                  </svg>
                 </button>
                 <button
                   v-if="unmuted"
@@ -272,13 +289,14 @@
                 >
                   <button
                     class="button-unstyled reply-to"
+                    style="display: flex; align-items: center;"
                     :aria-label="$t('tool_tip.reply')"
                     @click.prevent="gotoOriginal(status.in_reply_to_status_id)"
                   >
-                    <FAIcon
-                      class="fa-scale-110 fa-old-padding"
-                      icon="reply"
-                      flip="horizontal"
+                    <i
+                      class="ReplyButton las la-reply"
+                      title="Reply"
+                      style="margin-right: 0.25rem; transform: scaleX(-1)"
                     />
                     {{ ' ' }}
                     <span
@@ -534,6 +552,6 @@
   </div>
 </template>
 
-<script src="./status.js" ></script>
+<script src="./status.js"></script>
 
 <style src="./status.scss" lang="scss"></style>

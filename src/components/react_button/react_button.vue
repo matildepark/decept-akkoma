@@ -8,27 +8,45 @@
     remove-padding
     @show="focusInput"
   >
-    <template v-slot:content="{close}">
+    <template #content="{close}">
       <EmojiPicker
         :enable-sticker-picker="false"
         @emoji="addReaction($event, close)"
       />
     </template>
-    <template v-slot:trigger>
+    <template #trigger>
       <button
         class="button-unstyled popover-trigger"
         :title="$t('tool_tip.add_reaction')"
       >
-        <FAIcon
-          class="fa-scale-110 fa-old-padding"
-          :icon="['far', 'smile-beam']"
-        />
+        <svg
+          slot="trigger"
+          style="display:inline-block;vertical-align:middle;cursor:pointer;"
+          height="16px"
+          width="16px"
+        >
+          <circle
+            cx="5"
+            cy="6"
+            r="1"
+          />
+          <circle
+            cx="11"
+            cy="6"
+            r="1"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M3.61157 9C4.0663 11.004 5.85848 12.5 8.00006 12.5C10.1417 12.5 11.9338 11.004 12.3886 9H11.3551C10.9248 10.4457 9.58557 11.5 8.00006 11.5C6.41455 11.5 5.07528 10.4457 4.645 9H3.61157Z"
+          />
+        </svg>
       </button>
     </template>
   </Popover>
 </template>
 
-<script src="./react_button.js" ></script>
+<script src="./react_button.js"></script>
 
 <style lang="scss">
 @import '../../_variables.scss';

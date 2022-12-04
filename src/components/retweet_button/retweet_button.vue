@@ -7,18 +7,15 @@
       :title="$t('tool_tip.repeat')"
       @click.prevent="retweet()"
     >
-      <FAIcon
-        class="fa-scale-110 fa-old-padding"
-        icon="retweet"
-        :spin="animated"
+      <i
+        style="font-size:16px;"
+        :class="[classes, animated ? 'animate-spin' : '']"
+        class="RetweetButton las la-retweet -interactive"
+        :title="$t('tool_tip.repeat')"
       />
     </button>
     <span v-else-if="loggedIn">
-      <FAIcon
-        class="fa-scale-110 fa-old-padding"
-        icon="lock"
-        :title="$t('timeline.no_retweet_hint')"
-      />
+      <i style="font-size:16px;" :class="classes" class="RetweetButton las la-lock" :title="$t('timeline.no_retweet_hint')"/>
     </span>
     <a
       v-else
@@ -27,11 +24,7 @@
       role="button"
       :href="remoteInteractionLink"
     >
-      <FAIcon
-        class="fa-scale-110 fa-old-padding"
-        icon="retweet"
-        :title="$t('tool_tip.repeat')"
-      />
+    <i style="font-size:16px;" :class="classes" class="RetweetButton las la-retweet" :title="$t('tool_tip.repeat')"/>
     </a>
     <span
       v-if="!mergedConfig.hidePostStats && status.repeat_num > 0"
@@ -54,7 +47,7 @@
   </div>
 </template>
 
-<script src="./retweet_button.js" ></script>
+<script src="./retweet_button.js"></script>
 
 <style lang="scss">
 @import '../../_variables.scss';
@@ -73,12 +66,10 @@
   }
 
   .interactive {
-    .svg-inline--fa {
-      animation-duration: 0.6s;
-    }
+    animation-duration: 0.6s;
 
-    &:hover .svg-inline--fa,
-    &.-repeated .svg-inline--fa {
+    &:hover,
+    &.-repeated {
       color: $fallback--cGreen;
       color: var(--cGreen, $fallback--cGreen);
     }

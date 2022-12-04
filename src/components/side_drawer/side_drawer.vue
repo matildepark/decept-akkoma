@@ -33,14 +33,21 @@
       <ul>
         <li
           v-if="!currentUser"
+        >
+          <a
+            class="register"
+            href="https://reciprocal.ltd/store"
+            target="_blank"
+          >
+            Register
+          </a>
+        </li>
+        <li
+          v-if="!currentUser"
           @click="toggleDrawer"
         >
           <router-link :to="{ name: 'login' }">
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="sign-in-alt"
-            /> {{ $t("login.login") }}
+            {{ $t("login.login") }}
           </router-link>
         </li>
         <li
@@ -48,11 +55,7 @@
           @click="toggleDrawer"
         >
           <router-link :to="{ name: timelinesRoute }">
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="home"
-            /> {{ $t("nav.timelines") }}
+            {{ $t("nav.timelines") }}
           </router-link>
         </li>
         <li
@@ -60,22 +63,14 @@
           @click="toggleDrawer"
         >
           <router-link :to="{ name: 'lists' }">
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="list"
-            /> {{ $t("nav.lists") }}
+            {{ $t("nav.lists") }}
           </router-link>
         </li>
       </ul>
       <ul v-if="currentUser">
         <li @click="toggleDrawer">
           <router-link :to="{ name: 'interactions', params: { username: currentUser.screen_name } }">
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="bolt"
-            /> {{ $t("nav.interactions") }}
+            {{ $t("nav.interactions") }}
           </router-link>
         </li>
         <li
@@ -83,11 +78,7 @@
           @click="toggleDrawer"
         >
           <router-link to="/friend-requests">
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="user-plus"
-            /> {{ $t("nav.friend_requests") }}
+            {{ $t("nav.friend_requests") }}
             <span
               v-if="followRequestCount > 0"
               class="badge badge-notification"
@@ -103,11 +94,7 @@
           @click="toggleDrawer"
         >
           <router-link :to="{ name: 'search' }">
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="search"
-            /> {{ $t("nav.search") }}
+            {{ $t("nav.search") }}
           </router-link>
         </li>
         <li
@@ -115,11 +102,7 @@
           @click="toggleDrawer"
         >
           <router-link :to="{ name: 'who-to-follow' }">
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="user-plus"
-            /> {{ $t("nav.who_to_follow") }}
+            {{ $t("nav.who_to_follow") }}
           </router-link>
         </li>
         <li @click="toggleDrawer">
@@ -127,20 +110,12 @@
             class="button-unstyled -link -fullwidth"
             @click="openSettingsModal"
           >
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="cog"
-            /> {{ $t("settings.settings") }}
+            {{ $t("settings.settings") }}
           </button>
         </li>
         <li @click="toggleDrawer">
           <router-link :to="{ name: 'about'}">
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="info-circle"
-            /> {{ $t("nav.about") }}
+            {{ $t("nav.about") }}
           </router-link>
         </li>
         <li
@@ -151,11 +126,7 @@
             class="button-unstyled -link -fullwidth"
             @click="openModModal"
           >
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="user-tie"
-            /> {{ $t("nav.moderation") }}
+            {{ $t("nav.moderation") }}
           </button>
         </li>
         <li
@@ -166,11 +137,7 @@
             href="/pleroma/admin/#/login-pleroma"
             target="_blank"
           >
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="tachometer-alt"
-            /> {{ $t("nav.administration") }}
+            {{ $t("nav.administration") }}
           </a>
         </li>
         <li
@@ -180,11 +147,7 @@
           <router-link
             :to="{ name: 'announcements' }"
           >
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="bullhorn"
-            /> {{ $t("nav.announcements") }}
+            {{ $t("nav.announcements") }}
             <span
               v-if="unreadAnnouncementCount"
               class="badge badge-notification"
@@ -201,11 +164,7 @@
             class="button-unstyled -link -fullwidth"
             @click="doLogout"
           >
-            <FAIcon
-              fixed-width
-              class="fa-scale-110 fa-old-padding"
-              icon="sign-out-alt"
-            /> {{ $t("login.logout") }}
+            {{ $t("login.logout") }}
           </button>
         </li>
       </ul>
@@ -218,7 +177,7 @@
   </div>
 </template>
 
-<script src="./side_drawer.js" ></script>
+<script src="./side_drawer.js"></script>
 
 <style lang="scss">
 @import '../../_variables.scss';
@@ -352,9 +311,9 @@
 
     &:hover {
       background-color: $fallback--lightBg;
-      background-color: var(--selectedMenuPopover, $fallback--lightBg);
+      background-color: var(--panel, $fallback--lightBg);
       color: $fallback--text;
-      color: var(--selectedMenuPopoverText, $fallback--text);
+      color: var(--panelText, $fallback--text);
       --faint: var(--selectedMenuPopoverFaintText, $fallback--faint);
       --faintLink: var(--selectedMenuPopoverFaintLink, $fallback--faint);
       --lightText: var(--selectedMenuPopoverLightText, $fallback--lightText);

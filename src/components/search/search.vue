@@ -18,7 +18,7 @@
         type="submit"
         @click="newQuery(searchTerm)"
       >
-        <FAIcon icon="search" />
+        Search
       </button>
     </div>
     <div

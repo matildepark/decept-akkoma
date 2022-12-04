@@ -7,10 +7,11 @@
       :title="$t('tool_tip.favorite')"
       @click.prevent="favorite()"
     >
-      <FAIcon
-        class="fa-scale-110 fa-old-padding"
-        :icon="[status.favorited ? 'fas' : 'far', 'star']"
-        :spin="animated"
+      <i
+        style="font-size:16px;"
+        :class="[classes, animated ? 'animate-spin' : '']"
+        class="FavoriteButton las la-check-double -interactive"
+        :title="$t('tool_tip.favorite')"
       />
     </button>
     <a
@@ -20,10 +21,11 @@
       role="button"
       :href="remoteInteractionLink"
     >
-      <FAIcon
-        class="fa-scale-110 fa-old-padding"
+      <i
+        style="font-size:16px;"
+        :class="[classes, animated ? 'animate-spin' : '']"
+        class="FavoriteButton las la-check-double -interactive"
         :title="$t('tool_tip.favorite')"
-        :icon="['far', 'star']"
       />
     </a>
     <span
@@ -35,7 +37,7 @@
   </div>
 </template>
 
-<script src="./favorite_button.js" ></script>
+<script src="./favorite_button.js"></script>
 
 <style lang="scss">
 @import '../../_variables.scss';
@@ -58,9 +60,8 @@
       animation-duration: 0.6s;
     }
 
-    &:hover .svg-inline--fa,
-    &.-favorited .svg-inline--fa {
-      color: $fallback--cOrange;
+    &:hover,
+    &.-favorited {
       color: var(--cOrange, $fallback--cOrange);
     }
   }

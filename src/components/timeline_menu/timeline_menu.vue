@@ -9,19 +9,27 @@
     @show="openMenu"
     @close="() => isOpen = false"
   >
-    <template v-slot:content>
+    <template #content>
       <div class="timeline-menu-popover popover-default">
         <TimelineMenuContent />
       </div>
     </template>
-    <template v-slot:trigger>
+    <template #trigger>
       <button class="button-unstyled title timeline-menu-title">
         <span class="timeline-title">{{ timelineName() }}</span>
         <span>
-          <FAIcon
-            size="sm"
-            icon="chevron-down"
-          />
+          <svg
+            style="margin-left:0.5rem;vertical-align:middle;"
+            fill="var(--panelText)"
+            height="16px"
+            width="16px"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M1.64648 5.35359L2.35359 4.64648L8.00004 10.2929L13.6465 4.64648L14.3536 5.35359L8.00004 11.7071L1.64648 5.35359Z"
+            />
+          </svg>
         </span>
         <span
           class="click-blocker"
@@ -32,7 +40,7 @@
   </Popover>
 </template>
 
-<script src="./timeline_menu.js" ></script>
+<script src="./timeline_menu.js"></script>
 
 <style lang="scss">
 @import '../../_variables.scss';

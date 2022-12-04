@@ -4,12 +4,8 @@
       <router-link
         class="menu-item"
         :to="{ name: 'friends' }"
+        style="padding:0 0.5rem;"
       >
-        <FAIcon
-          fixed-width
-          class="fa-scale-110 fa-old-padding "
-          icon="home"
-        />
         <span
           :title="$t('nav.home_timeline_description')"
           :aria-label="$t('nav.home_timeline_description')"
@@ -20,12 +16,8 @@
       <router-link
         class="menu-item"
         :to="{ name: 'bubble-timeline' }"
+        style="padding:0 0.5rem;"
       >
-        <FAIcon
-          fixed-width
-          class="fa-scale-110 fa-old-padding "
-          icon="circle"
-        />
         <span
           :title="$t('nav.bubble_timeline_description')"
           :aria-label="$t('nav.bubble_timeline_description')"
@@ -36,12 +28,8 @@
       <router-link
         class="menu-item"
         :to="{ name: 'public-timeline' }"
+        style="padding:0 0.5rem;"
       >
-        <FAIcon
-          fixed-width
-          class="fa-scale-110 fa-old-padding "
-          icon="users"
-        />
         <span
           :title="$t('nav.public_timeline_description')"
           :aria-label="$t('nav.public_timeline_description')"
@@ -52,12 +40,8 @@
       <router-link
         class="menu-item"
         :to="{ name: 'public-external-timeline' }"
+        style="padding:0 0.5rem;"
       >
-        <FAIcon
-          fixed-width
-          class="fa-scale-110 fa-old-padding "
-          icon="globe"
-        />
         <span
           :title="$t('nav.twkn_timeline_description')"
           :aria-label="$t('nav.twkn_timeline_description')"
@@ -68,12 +52,8 @@
       <router-link
         class="menu-item"
         :to="{ name: 'bookmarks'}"
+        style="padding:0 0.5rem;"
       >
-        <FAIcon
-          fixed-width
-          class="fa-scale-110 fa-old-padding "
-          icon="bookmark"
-        />
         <span
           :title="$t('nav.bookmarks')"
           :aria-label="$t('nav.bookmarks')"
@@ -84,12 +64,8 @@
       <router-link
         class="menu-item"
         :to="{ name: 'dms', params: { username: currentUser.screen_name } }"
+        style="padding:0 0.5rem;"
       >
-        <FAIcon
-          fixed-width
-          class="fa-scale-110 fa-old-padding "
-          icon="envelope"
-        />
         <span
           :title="$t('nav.dms')"
           :aria-label="$t('nav.dms')"
@@ -110,5 +86,8 @@
   display: block;
   background-color: scale(var(--bg, $fallback--bg), 0.1);
   padding-bottom: 0.4em;
+}
+.TimelineMenu a {
+  line-height: 2.5rem;
 }
 </style>

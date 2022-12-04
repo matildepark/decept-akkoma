@@ -197,16 +197,20 @@
 
     .user-profile-field {
       display: flex;
-      margin: 0.25em;
+      margin: 1em auto;
+      max-width: 35ch;
+      text-align: center;
       border: 1px solid var(--border, $fallback--border);
       border-radius: $fallback--inputRadius;
       border-radius: var(--inputRadius, $fallback--inputRadius);
+      box-shadow: var(--inputShadow);
 
       .user-profile-field-name {
         flex: 0 1 30%;
         font-weight: 500;
-        text-align: right;
-        color: var(--lightText);
+        text-align: left;
+        color: var(--panelText);
+        background-color: var(--panel, #121a24);
         min-width: 120px;
         border-right: 1px solid var(--border, $fallback--border);
       }
@@ -222,7 +226,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
-        padding: 0.5em 1.5em;
+        padding: 0.5em;
         box-sizing: border-box;
       }
     }

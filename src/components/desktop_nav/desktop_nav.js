@@ -48,28 +48,28 @@ export default {
     searchBarHidden: true,
     supportsMask: window.CSS && window.CSS.supports && (
       window.CSS.supports('mask-size', 'contain') ||
-        window.CSS.supports('-webkit-mask-size', 'contain') ||
-        window.CSS.supports('-moz-mask-size', 'contain') ||
-        window.CSS.supports('-ms-mask-size', 'contain') ||
-        window.CSS.supports('-o-mask-size', 'contain')
+      window.CSS.supports('-webkit-mask-size', 'contain') ||
+      window.CSS.supports('-moz-mask-size', 'contain') ||
+      window.CSS.supports('-ms-mask-size', 'contain') ||
+      window.CSS.supports('-o-mask-size', 'contain')
     ),
     showingConfirmLogout: false
   }),
   computed: {
-    enableMask () { return this.supportsMask && this.$store.state.instance.logoMask },
-    logoStyle () {
+    enableMask() { return this.supportsMask && this.$store.state.instance.logoMask },
+    logoStyle() {
       return {
         'visibility': this.enableMask ? 'hidden' : 'visible'
       }
     },
-    logoMaskStyle () {
+    logoMaskStyle() {
       return this.enableMask ? {
         'mask-image': `url(${this.$store.state.instance.logo})`
       } : {
         'background-color': this.enableMask ? '' : 'transparent'
       }
     },
-    logoBgStyle () {
+    logoBgStyle() {
       return Object.assign({
         'margin': `${this.$store.state.instance.logoMargin} 0`,
         opacity: this.searchBarHidden ? 1 : 0
@@ -77,45 +77,45 @@ export default {
         'background-color': this.enableMask ? '' : 'transparent'
       })
     },
-    logo () { return this.$store.state.instance.logo },
-    mergedConfig () {
+    logo() { return this.$store.state.instance.logo },
+    mergedConfig() {
       return this.$store.getters.mergedConfig
     },
-    sitename () { return this.$store.state.instance.name },
-    showNavShortcuts () {
+    sitename() { return this.$store.state.instance.name },
+    showNavShortcuts() {
       return this.mergedConfig.showNavShortcuts
     },
-    showWiderShortcuts () {
+    showWiderShortcuts() {
       return this.mergedConfig.showWiderShortcuts
     },
-    hideSiteFavicon () {
+    hideSiteFavicon() {
       return this.mergedConfig.hideSiteFavicon
     },
-    hideSiteName () {
+    hideSiteName() {
       return this.mergedConfig.hideSiteName
     },
-    hideSitename () { return this.$store.state.instance.hideSitename },
-    logoLeft () { return this.$store.state.instance.logoLeft },
-    currentUser () { return this.$store.state.users.currentUser },
-    privateMode () { return this.$store.state.instance.private },
-    shouldConfirmLogout () {
+    hideSitename() { return this.$store.state.instance.hideSitename },
+    logoLeft() { return this.$store.state.instance.logoLeft },
+    currentUser() { return this.$store.state.users.currentUser },
+    privateMode() { return this.$store.state.instance.private },
+    shouldConfirmLogout() {
       return this.$store.getters.mergedConfig.modalOnLogout
     },
-    showBubbleTimeline () {
-      return this.$store.state.instance.localBubbleInstances.length > 0
+    showBubbleTimeline() {
+      return this.$store.state.instance.localBubbleInstances?.length > 0
     }
   },
   methods: {
-    scrollToTop () {
+    scrollToTop() {
       window.scrollTo(0, 0)
     },
-    onSearchBarToggled (hidden) {
+    onSearchBarToggled(hidden) {
       this.searchBarHidden = hidden
     },
-    openSettingsModal () {
+    openSettingsModal() {
       this.$store.dispatch('openSettingsModal')
     },
-    openModModal () {
+    openModModal() {
       this.$store.dispatch('openModModal')
     }
   }

@@ -5,18 +5,10 @@
         <li v-if="currentUser || !privateMode">
           <button
             class="button-unstyled menu-item"
+            style="margin: 0;"
             @click="toggleTimelines"
           >
-            <FAIcon
-              fixed-width
-              class="fa-scale-110"
-              icon="stream"
-            />{{ $t("nav.timelines") }}
-            <FAIcon
-              class="timelines-chevron"
-              fixed-width
-              :icon="showTimelines ? 'chevron-up' : 'chevron-down'"
-            />
+            {{ $t("nav.timelines") }}
           </button>
           <div
             v-show="showTimelines"
@@ -30,11 +22,7 @@
             class="menu-item"
             :to="{ name: 'lists' }"
           >
-            <FAIcon
-              fixed-width
-              class="fa-scale-110"
-              icon="list"
-            />{{ $t("nav.lists") }}
+            {{ $t("nav.lists") }}
           </router-link>
         </li>
         <li v-if="currentUser">
@@ -42,11 +30,7 @@
             class="menu-item"
             :to="{ name: 'interactions', params: { username: currentUser.screen_name } }"
           >
-            <FAIcon
-              fixed-width
-              class="fa-scale-110"
-              icon="bolt"
-            />{{ $t("nav.interactions") }}
+            {{ $t("nav.interactions") }}
           </router-link>
         </li>
         <li v-if="currentUser && currentUser.locked">
@@ -54,11 +38,7 @@
             class="menu-item"
             :to="{ name: 'friend-requests' }"
           >
-            <FAIcon
-              fixed-width
-              class="fa-scale-110"
-              icon="user-plus"
-            />{{ $t("nav.friend_requests") }}
+            {{ $t("nav.friend_requests") }}
             <span
               v-if="followRequestCount > 0"
               class="badge badge-notification"
@@ -72,11 +52,7 @@
             class="menu-item"
             :to="{ name: 'about' }"
           >
-            <FAIcon
-              fixed-width
-              class="fa-scale-110"
-              icon="info-circle"
-            />{{ $t("nav.about") }}
+            {{ $t("nav.about") }}
           </router-link>
         </li>
         <li v-if="currentUser">
@@ -84,11 +60,7 @@
             class="menu-item"
             :to="{ name: 'announcements' }"
           >
-            <FAIcon
-              fixed-width
-              class="fa-scale-110"
-              icon="bullhorn"
-            />{{ $t('nav.announcements') }}
+            {{ $t('nav.announcements') }}
             <span
               v-if="unreadAnnouncementCount > 0"
               class="badge badge-notification"
@@ -108,6 +80,10 @@
 @import '../../_variables.scss';
 
 .NavPanel {
+  margin: 0;
+  .panel-default {
+    margin: 0;
+  }
   .panel {
     overflow: hidden;
     box-shadow: var(--panelShadow);
@@ -148,8 +124,7 @@
   .menu-item {
     display: block;
     box-sizing: border-box;
-    height: 3.5em;
-    line-height: 3.5em;
+    line-height: 2.5em;
     padding: 0 1em;
     width: 100%;
     color: $fallback--link;
