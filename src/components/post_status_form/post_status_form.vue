@@ -414,7 +414,7 @@
     height: 2.5em;
 
     button {
-      width: 10em;
+      flex-basis: 25%;
     }
 
     p {
