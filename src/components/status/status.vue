@@ -112,11 +112,11 @@
             >{{ retweeter }}</router-link>
           </span>
           {{ ' ' }}
-          <FAIcon
-            icon="retweet"
-            class="repeat-icon"
-            :title="$t('tool_tip.repeat')"
+          <i
+            style="font-size:16px; margin: 0 0.25rem;vertical-align: middle;"
+            class="las la-retweet"
           />
+          {{ ' ' }}
           {{ $t('timeline.repeated') }}
         </div>
       </div>

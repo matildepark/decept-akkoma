@@ -1051,7 +1051,7 @@
         "no_retweet_hint": "Node is marked as subscribers-only (or direct) and cannot be relayed or quoted",
         "no_statuses": "No nodes",
         "reload": "Reload",
-        "repeated": "Relayed",
+        "repeated": "relayed",
         "show_new": "Show new",
         "socket_broke": "Realtime connection lost: CloseEvent code {0}",
         "socket_reconnected": "Realtime connection established",
