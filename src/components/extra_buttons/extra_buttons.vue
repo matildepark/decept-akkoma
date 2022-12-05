@@ -74,9 +74,41 @@
           /><span>{{ $t("status.unbookmark") }}</span>
         </button>
         <button
+          v-if="ownStatus && editingAvailable"
+          class="button-default dropdown-item dropdown-item-icon"
+          @click.prevent="editStatus"
+          @click="close"
+        >
+          <i
+            class="las la-pen"
+            style="display:inline-block;vertical-align:middle;cursor:pointer;margin-left:4px;margin-right:4px;"
+          /><span>{{ $t("status.edit") }}</span>
+        </button>
+        <button
+          v-if="isEdited && editingAvailable"
+          class="button-default dropdown-item dropdown-item-icon"
+          @click.prevent="showStatusHistory"
+          @click="close"
+        >
+          <i
+            class="las la-history"
+            style="display:inline-block;vertical-align:middle;cursor:pointer;margin-left:4px;margin-right:4px;"
+          /><span>{{ $t("status.edit_history") }}</span>
+        </button>
+        <button
+          v-if="ownStatus"
+          class="button-default dropdown-item dropdown-item-icon"
+          @click.prevent="redraftStatus"
+          @click="close"
+        >
+          <i
+            class="las la-edit"
+            style="display:inline-block;vertical-align:middle;cursor:pointer;margin-left:4px;margin-right:4px;"
+          /><span>{{ $t("status.redraft") }}</span>
+        </button>
+        <button
           v-if="canDelete"
           class="button-default dropdown-item dropdown-item-icon"
-          style="display:flex;align-items:center;"
           @click.prevent="deleteStatus"
           @click="close"
         >
@@ -132,6 +164,27 @@
             class="las la-flag"
           /><span>{{ $t("user_card.report") }}</span>
         </button>
+        <button
+          v-if="canTranslate"
+          class="button-default dropdown-item dropdown-item-icon"
+          @click.prevent="translateStatus"
+          @click="close"
+        >
+          <FAIcon
+            fixed-width
+            icon="globe"
+          /><span>{{ $t("status.translate") }}</span>
+
+          <template v-if="noTranslationTargetSet">
+            <span class="dropdown-item-icon__badge warning">
+              <FAIcon
+                fixed-width
+                icon="exclamation-triangle"
+                name="test"
+              />
+            </span>
+          </template>
+        </button>
       </div>
     </template>
     <template #trigger>
@@ -151,6 +204,28 @@
           />
         </svg>
       </button>
+      <teleport to="#modal">
+        <ConfirmModal
+          v-if="showingDeleteDialog"
+          :title="$t('status.delete_confirm_title')"
+          :cancel-text="$t('status.delete_confirm_cancel_button')"
+          :confirm-text="$t('status.delete_confirm_accept_button')"
+          @cancelled="hideDeleteStatusConfirmDialog"
+          @accepted="doDeleteStatus"
+        >
+          {{ $t('status.delete_confirm') }}
+        </ConfirmModal>
+        <ConfirmModal
+          v-if="showingRedraftDialog"
+          :title="$t('status.redraft_confirm_title')"
+          :cancel-text="$t('status.redraft_confirm_cancel_button')"
+          :confirm-text="$t('status.redraft_confirm_accept_button')"
+          @cancelled="hideRedraftStatusConfirmDialog"
+          @accepted="doRedraftStatus"
+        >
+          {{ $t('status.redraft_confirm') }}
+        </ConfirmModal>
+      </teleport>
     </template>
   </Popover>
 </template>
@@ -170,6 +245,11 @@
     position: static;
     padding: 10px;
     margin: -10px;
+
+    &:hover .svg-inline--fa {
+      color: $fallback--text;
+      color: var(--text, $fallback--text);
+    }
   }
 }
 </style>
