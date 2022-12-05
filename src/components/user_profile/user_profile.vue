@@ -198,7 +198,7 @@
     .user-profile-field {
       display: flex;
       margin: 1em auto;
-      max-width: 60ch;
+      max-width: 40ch;
       text-align: center;
       border: 1px solid var(--border, $fallback--border);
       border-radius: $fallback--inputRadius;
