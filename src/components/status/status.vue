@@ -184,12 +184,6 @@
                   >
                     @{{ status.user.screen_name_ui }}
                   </router-link>
-                  <img
-                    v-if="!!(status.user && status.user.favicon)"
-                    class="status-favicon"
-                    :src="status.user.favicon"
-                    :title="faviconAlt(status)"
-                  >
                 </span>
               </div>
 
