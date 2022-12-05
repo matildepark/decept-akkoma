@@ -1,7 +1,7 @@
 // stylelint-disable rscss/class-format
 @import './_variables.scss';
 
-@font-face{font-family:Geneva;font-style:normal;font-weight:400;src:local('Geneva'),url('/static/Geneva.woff') format('woff')}
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;500&display=swap');
 
 :root {
   --navbar-height: 3.5rem;
@@ -19,8 +19,7 @@ body {
   margin: 0;
   color: $fallback--text;
   color: var(--text, $fallback--text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: subpixel-antialiased;
   overscroll-behavior-y: none;
   overflow-x: clip;
   overflow-y: scroll;

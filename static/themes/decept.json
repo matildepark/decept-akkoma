@@ -251,13 +251,13 @@
     },
     "fonts": {
       "interface": {
-        "family": "Geneva, sans-serif"
+        "family": "'M Plus 1p', sans-serif"
       },
       "input": {
         "family": "monospace"
       },
       "post": {
-        "family": "Geneva, sans-serif"
+        "family": "'M Plus 1p', sans-serif"
       },
       "postCode": {
         "family": "Monaco, monospace"
@@ -268,13 +268,13 @@
     "themeEngineVersion": 3,
     "fonts": {
       "interface": {
-        "family": "Geneva, sans-serif"
+        "family": "'M Plus 1p', sans-serif"
       },
       "postCode": {
         "family": "Monaco, monospace"
       },
       "post": {
-        "family": "Geneva, sans-serif"
+        "family": "'M Plus 1p', sans-serif"
       },
       "input": {
         "family": "monospace"
