@@ -1,7 +1,29 @@
 // stylelint-disable rscss/class-format
 @import './_variables.scss';
 
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@400;500&display=swap');
+@font-face {
+  font-family: 'M PLUS 1p';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://decept.org/static/font/MPLUS1p-Regular.woff2") format('woff2');
+}
+
+@font-face {
+  font-family: 'M PLUS 1p';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("https://decept.org/static/font/MPLUS1p-Medium.woff2") format('woff2');
+}
+
+@font-face {
+  font-family: 'M PLUS 1p';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://decept.org/static/font/MPLUS1p-Bold.woff2") format('woff2');
+}
 
 :root {
   --navbar-height: 3.5rem;
