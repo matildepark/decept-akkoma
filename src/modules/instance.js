@@ -36,7 +36,7 @@ const defaultState = {
   hideWordFilteredPosts: false,
   hidePostStats: false,
   hideBotIndication: false,
-  hideSiteFavicon: false,
+  hideSiteFavicon: true,
   hideSiteName: false,
   hideUserStats: false,
   muteBotStatuses: false,
@@ -111,25 +111,25 @@ const defaultState = {
 const instance = {
   state: defaultState,
   mutations: {
-    setInstanceOption (state, { name, value }) {
+    setInstanceOption(state, { name, value }) {
       if (typeof value !== 'undefined') {
         state[name] = value
       }
     },
-    setKnownDomains (state, domains) {
+    setKnownDomains(state, domains) {
       state.knownDomains = domains
     }
   },
   getters: {
-    instanceDefaultConfig (state) {
+    instanceDefaultConfig(state) {
       return instanceDefaultProperties
         .map(key => [key, state[key]])
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
     },
-    instanceDomain (state) {
+    instanceDomain(state) {
       return new URL(state.server).hostname
     },
-    remoteInteractionLink (state) {
+    remoteInteractionLink(state) {
       const server = state.server.endsWith('/') ? state.server.slice(0, -1) : state.server
       const link = server + REMOTE_INTERACTION_URL
 
@@ -143,7 +143,7 @@ const instance = {
     }
   },
   actions: {
-    setInstanceOption ({ commit, dispatch }, { name, value }) {
+    setInstanceOption({ commit, dispatch }, { name, value }) {
       commit('setInstanceOption', { name, value })
       switch (name) {
         case 'name':
@@ -154,7 +154,7 @@ const instance = {
           break
       }
     },
-    async getStaticEmoji ({ commit }) {
+    async getStaticEmoji({ commit }) {
       try {
         const res = await window.fetch('/static/emoji.json')
         if (res.ok) {
@@ -176,7 +176,7 @@ const instance = {
       }
     },
 
-    async getCustomEmoji ({ commit, state }) {
+    async getCustomEmoji({ commit, state }) {
       try {
         const res = await window.fetch('/api/pleroma/emoji.json')
         if (res.ok) {
@@ -203,7 +203,7 @@ const instance = {
       }
     },
 
-    setTheme ({ commit, rootState }, themeName) {
+    setTheme({ commit, rootState }, themeName) {
       commit('setInstanceOption', { name: 'theme', value: themeName })
       getPreset(themeName)
         .then(themeData => {
@@ -221,7 +221,7 @@ const instance = {
           }
         })
     },
-    fetchEmoji ({ dispatch, state }) {
+    fetchEmoji({ dispatch, state }) {
       if (!state.customEmojiFetched) {
         state.customEmojiFetched = true
         dispatch('getCustomEmoji')
@@ -232,7 +232,7 @@ const instance = {
       }
     },
 
-    async getKnownDomains ({ commit, rootState }) {
+    async getKnownDomains({ commit, rootState }) {
       try {
         const result = await apiService.fetchKnownDomains({
           credentials: rootState.users.currentUser.credentials

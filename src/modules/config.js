@@ -41,7 +41,7 @@ export const defaultState = {
   showNavShortcuts: undefined, // instance default
   showPanelNavShortcuts: undefined, // instance default
   showWiderShortcuts: undefined, // instance default
-  hideSiteFavicon: undefined, // instance default
+  hideSiteFavicon: true, // instance default
   hideSiteName: undefined, // instance default
   hideAttachments: false,
   hideAttachmentsInConv: false,
