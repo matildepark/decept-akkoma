@@ -2,6 +2,7 @@ var path = require('path')
 var config = require('../config')
 var utils = require('./utils')
 var webpack = require('webpack')
+const WorkboxPlugin = require('workbox-webpack-plugin');
 var { merge } = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -32,6 +33,11 @@ var webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[name].[chunkhash].js')
   },
   plugins: [
+    new WorkboxPlugin.InjectManifest({
+      swSrc: path.join(__dirname, '..', 'src/sw.js'),
+      swDest: 'sw-pleroma.js',
+      maximumFileSizeToCacheInBytes: 15 * 1024 * 1024,
+    }),
     // http://vuejs.github.io/vue-loader/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env,

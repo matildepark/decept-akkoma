@@ -166,19 +166,21 @@
                 >
                   {{ status.user.name }}
                 </h4>
-                <router-link
-                  class="account-name"
-                  :title="status.user.screen_name_ui"
-                  :to="userProfileLink"
-                >
-                  {{ status.user.screen_name_ui }}
-                </router-link>
-                <img
-                  v-if="!!(status.user && status.user.favicon)"
-                  class="status-favicon"
-                  :src="status.user.favicon"
-                  :title="faviconAlt(status)"
-                >
+                <span class="nowrap">
+                  <router-link
+                    class="account-name"
+                    :title="status.user.screen_name_ui"
+                    :to="userProfileLink"
+                  >
+                    @{{ status.user.screen_name_ui }}
+                  </router-link>
+                  <img
+                    v-if="!!(status.user && status.user.favicon)"
+                    class="status-favicon"
+                    :src="status.user.favicon"
+                    :title="faviconAlt(status)"
+                  >
+                </span>
               </div>
 
               <span class="heading-right">
@@ -350,22 +352,25 @@
             </div>
           </div>
 
-          <StatusContent
-            ref="content"
-            :status="status"
-            :no-heading="noHeading"
-            :highlight="highlight"
-            :focused="isFocused"
-            :controlled-showing-tall="controlledShowingTall"
-            :controlled-expanding-subject="controlledExpandingSubject"
-            :controlled-showing-long-subject="controlledShowingLongSubject"
-            :controlled-toggle-showing-tall="controlledToggleShowingTall"
-            :controlled-toggle-expanding-subject="controlledToggleExpandingSubject"
-            :controlled-toggle-showing-long-subject="controlledToggleShowingLongSubject"
-            @mediaplay="addMediaPlaying($event)"
-            @mediapause="removeMediaPlaying($event)"
-            @parseReady="setHeadTailLinks"
-          />
+          <div class="content">
+            <StatusContent
+              ref="content"
+              class="status-content"
+              :status="status"
+              :no-heading="noHeading"
+              :highlight="highlight"
+              :focused="isFocused"
+              :controlled-showing-tall="controlledShowingTall"
+              :controlled-expanding-subject="controlledExpandingSubject"
+              :controlled-showing-long-subject="controlledShowingLongSubject"
+              :controlled-toggle-showing-tall="controlledToggleShowingTall"
+              :controlled-toggle-expanding-subject="controlledToggleExpandingSubject"
+              :controlled-toggle-showing-long-subject="controlledToggleShowingLongSubject"
+              @mediaplay="addMediaPlaying($event)"
+              @mediapause="removeMediaPlaying($event)"
+              @parseReady="setHeadTailLinks"
+            />
+          </div>
 
           <div
             v-if="inConversation && !isPreview && replies && replies.length"
@@ -532,6 +537,6 @@
   </div>
 </template>
 
-<script src="./status.js" ></script>
+<script src="./status.js"></script>
 
 <style src="./status.scss" lang="scss"></style>

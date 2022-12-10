@@ -1,4 +1,4 @@
-@import '../../_variables.scss';
+@import "../../_variables.scss";
 
 .Status {
   min-width: 0;
@@ -41,6 +41,10 @@
   .status-container {
     display: flex;
     padding: var(--status-margin, $status-margin);
+
+    .content {
+      overflow: hidden;
+    }
 
     > * {
       min-width: 0;
@@ -130,6 +134,15 @@
   .heading-left {
     display: flex;
     min-width: 0;
+    flex-wrap: wrap;
+
+    img {
+      aspect-ratio: 1 / 1;
+    }
+
+    .nowrap {
+      white-space: nowrap;
+    }
   }
 
   .heading-right {
@@ -139,6 +152,7 @@
     .button-unstyled {
       padding: 5px;
       margin: -5px;
+      height: min-content;
 
       &:hover svg {
         color: $fallback--lightText;
@@ -185,7 +199,7 @@
 
   .reply-to-popover {
     .reply-to:hover::before {
-      content: '';
+      content: "";
       display: block;
       position: absolute;
       bottom: 0;
@@ -195,13 +209,12 @@
     }
 
     .faint-link:hover {
-      // override default
       text-decoration: none;
     }
 
     &.-strikethrough {
       .reply-to::after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -293,10 +306,12 @@
     position: relative;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
     margin-top: var(--status-margin, $status-margin);
 
     > * {
-      max-width: 4em;
+      min-width: fit-content;
       flex: 1;
     }
   }
@@ -340,7 +355,7 @@
       margin-left: 0.2em;
 
       &::before {
-        content: ' ';
+        content: " ";
       }
     }
 
@@ -387,7 +402,7 @@
     align-items: center;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       height: 100%;
       width: 1px;

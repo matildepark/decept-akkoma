@@ -21,6 +21,7 @@ import postStatusModule from './modules/postStatus.js'
 import announcementsModule from './modules/announcements.js'
 import editStatusModule from './modules/editStatus.js'
 import statusHistoryModule from './modules/statusHistory.js'
+import tagModule from './modules/tags.js'
 
 import { createI18n } from 'vue-i18n'
 
@@ -51,6 +52,17 @@ const persistedStateOptions = {
 };
 
 (async () => {
+  if ('serviceWorker' in navigator) {
+    // declaring scope manually
+    navigator.serviceWorker.register('/sw-pleroma.js', {scope: '/'}).then((registration) => {
+      console.log('Service worker registration succeeded:', registration);
+    }, /*catch*/ (error) => {
+      console.error(`Service worker registration failed: ${error}`);
+    });
+  } else {
+    console.error('Service workers are not supported.');
+  }
+
   let storageError = false
   const plugins = [pushNotifications]
   try {
@@ -85,7 +97,8 @@ const persistedStateOptions = {
       postStatus: postStatusModule,
       announcements: announcementsModule,
       editStatus: editStatusModule,
-      statusHistory: statusHistoryModule
+      statusHistory: statusHistoryModule,
+      tags: tagModule
     },
     plugins,
     strict: false // Socket modifies itself, let's ignore this for now.

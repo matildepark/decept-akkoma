@@ -2,7 +2,6 @@ var path = require('path')
 var config = require('../config')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
-const WorkboxPlugin = require('workbox-webpack-plugin');
 var { VueLoaderPlugin } = require('vue-loader')
 
 var env = process.env.NODE_ENV
@@ -119,11 +118,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new WorkboxPlugin.InjectManifest({
-      swSrc: path.join(__dirname, '..', 'src/sw.js'),
-      swDest: 'sw-pleroma.js',
-      maximumFileSizeToCacheInBytes: 15 * 1024 * 1024,
-    }),
     new VueLoaderPlugin()
   ]
 }

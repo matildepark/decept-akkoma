@@ -62,6 +62,10 @@ const EmojiPicker = {
       this.scrolledGroup(target)
       this.triggerLoadMore(target)
     },
+    onWheel (e) {
+      e.preventDefault()
+      this.$refs['emoji-tabs'].scrollBy(e.deltaY, 0)
+    },
     highlight (key) {
       this.setShowStickers(false)
       this.activeGroup = key
@@ -138,7 +142,7 @@ const EmojiPicker = {
       if (this.keyword === '') return list
       const regex = new RegExp(escapeRegExp(trim(this.keyword)), 'i')
       return list.filter(emoji => {
-        return regex.test(emoji.displayText)
+        return (regex.test(emoji.displayText) || (!emoji.imageUrl && emoji.replacement === this.keyword))
       })
     }
   },
