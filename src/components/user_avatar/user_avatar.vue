@@ -17,11 +17,7 @@
       class="avatar -placeholder"
       :class="{ '-compact': compact }"
     />
-    <FAIcon
-      v-if="bot"
-      icon="robot"
-      class="bot-indicator"
-    />
+    <i v-if="bot" class="las la-robot bot-indicator" />
   </span>
 </template>
 
@@ -84,9 +80,9 @@
     bottom: 0;
     right: 0;
     margin: -0.2em;
-    padding: 0.2em;
-    background: rgba(127, 127, 127, 0.5);
-    color: #fff;
+    padding: 0.1em;
+    background: rgba(255, 255, 255, 1);
+    color: #000;
     border-radius: var(--tooltipRadius);
   }
 

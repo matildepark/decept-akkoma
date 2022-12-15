@@ -21,10 +21,7 @@
               :user="user"
             />
             <div class="user-info-avatar-link-overlay">
-              <FAIcon
-                class="fa-scale-110 fa-old-padding"
-                icon="search-plus"
-              />
+              <i class="las la-search-plus" style="font-size: 1.2rem;"/>
             </div>
           </a>
           <router-link
