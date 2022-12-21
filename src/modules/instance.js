@@ -24,7 +24,7 @@ const defaultState = {
   useAtIcon: false,
   mentionLinkDisplay: 'short',
   mentionLinkShowTooltip: true,
-  mentionLinkShowAvatar: false,
+  mentionLinkShowAvatar: true,
   mentionLinkFadeDomain: true,
   mentionLinkShowYous: false,
   mentionLinkBoldenYou: true,
