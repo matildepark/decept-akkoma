@@ -56,7 +56,8 @@
 }
 
 .emoji-reaction {
-  box-shadow: var(--inputShadow);
+  border: 1px solid $fallback--fg !important;
+  box-shadow: none !important;
   padding: 0 0.5em;
   margin-right: 0.5em;
   margin-top: 0.5em;
@@ -64,9 +65,18 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  span {
+    display: flex;
+  align-items: center;
+  justify-content: center;
+
+  }
   .reaction-emoji {
     width: 1.55em !important;
     margin-right: 0.25em;
+  }
+  &:hover {
+    box-shadow: var(--inputShadow) !important;
   }
   &:focus {
     outline: none;
