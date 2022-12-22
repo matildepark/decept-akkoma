@@ -6,6 +6,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faAt
 } from '@fortawesome/free-solid-svg-icons'
+import { directive } from 'vue-tippy'
 
 library.add(
   faAt
@@ -34,8 +35,11 @@ const MentionLink = {
       type: String
     }
   },
+  directives: {
+    tippy: directive,
+  },
   methods: {
-    onClick () {
+    onClick() {
       const link = generateProfileLink(
         this.userId || this.user.id,
         this.userScreenName || this.user.screen_name
@@ -44,36 +48,36 @@ const MentionLink = {
     }
   },
   computed: {
-    user () {
+    user() {
       return this.url && this.$store && this.$store.getters.findUserByUrl(this.url)
     },
-    isYou () {
+    isYou() {
       // FIXME why user !== currentUser???
       return this.user && this.user.id === this.currentUser.id
     },
-    userName () {
+    userName() {
       return this.user && this.userNameFullUi.split('@')[0]
     },
-    serverName () {
+    serverName() {
       // XXX assumed that domain does not contain @
       return this.user && (this.userNameFullUi.split('@')[1] || this.$store.getters.instanceDomain)
     },
-    userNameFull () {
+    userNameFull() {
       return this.user && this.user.screen_name
     },
-    userNameFullUi () {
+    userNameFullUi() {
       return this.user && this.user.screen_name_ui
     },
-    highlight () {
+    highlight() {
       return this.user && this.mergedConfig.highlight[this.user.screen_name]
     },
-    highlightType () {
+    highlightType() {
       return this.highlight && ('-' + this.highlight.type)
     },
-    highlightClass () {
+    highlightClass() {
       if (this.highlight) return highlightClass(this.user)
     },
-    style () {
+    style() {
       if (this.highlight) {
         const {
           backgroundColor,
@@ -84,7 +88,7 @@ const MentionLink = {
         return rest
       }
     },
-    classnames () {
+    classnames() {
       return [
         {
           '-you': this.isYou && this.shouldBoldenYou,
@@ -93,13 +97,13 @@ const MentionLink = {
         this.highlightType
       ]
     },
-    useAtIcon () {
+    useAtIcon() {
       return this.mergedConfig.useAtIcon
     },
-    isRemote () {
+    isRemote() {
       return this.userName !== this.userNameFull
     },
-    shouldShowFullUserName () {
+    shouldShowFullUserName() {
       const conf = this.mergedConfig.mentionLinkDisplay
       if (conf === 'short') {
         return false
@@ -109,19 +113,19 @@ const MentionLink = {
         return this.isRemote
       }
     },
-    shouldShowTooltip () {
+    shouldShowTooltip() {
       return this.mergedConfig.mentionLinkShowTooltip && this.mergedConfig.mentionLinkDisplay === 'short' && this.isRemote
     },
-    shouldShowAvatar () {
+    shouldShowAvatar() {
       return this.mergedConfig.mentionLinkShowAvatar
     },
-    shouldShowYous () {
+    shouldShowYous() {
       return this.mergedConfig.mentionLinkShowYous
     },
-    shouldBoldenYou () {
+    shouldBoldenYou() {
       return this.mergedConfig.mentionLinkBoldenYou
     },
-    shouldFadeDomain () {
+    shouldFadeDomain() {
       return this.mergedConfig.mentionLinkFadeDomain
     },
     ...mapGetters(['mergedConfig']),

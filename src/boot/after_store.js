@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import vClickOutside from 'click-outside-vue3'
 
+import { plugin as VueTippy } from 'vue-tippy'
 import { FontAwesomeIcon, FontAwesomeLayers } from '@fortawesome/vue-fontawesome'
 
 import App from '../App.vue'
@@ -420,6 +421,10 @@ const afterStoreSetup = async ({ store, i18n }) => {
 
   app.use(vClickOutside)
   app.use(VBodyScrollLock)
+  app.use(VueTippy, {
+    directive: 'tippy',
+    component: 'tippy'
+  })
 
   app.component('FAIcon', FontAwesomeIcon)
   app.component('FALayers', FontAwesomeLayers)

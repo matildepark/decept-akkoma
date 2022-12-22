@@ -1,5 +1,6 @@
 <template>
   <span
+    v-tippy="`@${userName}@${serverName}`"
     class="MentionLink"
   >
     <!-- eslint-disable vue/no-v-html -->
@@ -42,26 +43,7 @@
           :class="{ '-you': shouldBoldenYou }"
         > {{ ' ' + $t('status.you') }}</span>
         <!-- eslint-enable vue/no-v-html -->
-      </a><span
-        v-if="shouldShowTooltip"
-        class="full popover-default"
-        :class="[highlightType]"
-      >
-        <span
-          class="userNameFull"
-        >
-          <!-- eslint-disable vue/no-v-html -->
-          @<span
-            class="userName"
-            v-html="userName"
-          /><span
-            class="serverName"
-            :class="{ '-faded': shouldFadeDomain }"
-            v-html="'@' + serverName"
-          />
-          <!-- eslint-enable vue/no-v-html -->
-        </span>
-      </span>
+      </a>
     </span>
   </span>
 </template>

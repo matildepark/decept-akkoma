@@ -1,4 +1,5 @@
 @import '../../_variables.scss';
+@import "../../../node_modules/tippy.js/dist/tippy.css";
 
 .MentionLink {
   position: relative;
@@ -124,4 +125,14 @@
   .full .-faded {
     color: var(--faint, $fallback--faint);
   }
+}
+
+.tippy-box {
+  background: var(--bg);
+  box-shadow: var(--inputShadow);
+  color: var(--Text)
+}
+
+.tippy-arrow {
+  display: none;
 }
