@@ -538,7 +538,6 @@
 
   .poll-icon {
     order: 3;
-    justify-content: right;
   }
 
   .error {
