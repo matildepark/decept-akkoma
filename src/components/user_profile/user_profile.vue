@@ -37,6 +37,15 @@
               :html="field.value"
               :emoji="user.emoji"
             />
+            <span
+              v-if="field.verified_at"
+              class="user-profile-field-validated"
+            >
+              <FAIcon
+                icon="check-circle"
+                :title="$t('user_profile.field_validated')"
+              />
+            </span>
           </dd>
         </dl>
       </div>
@@ -95,22 +104,48 @@
           v-if="followsTabVisible"
           key="followees"
           :label="$t('user_card.followees')"
-          :disabled="!user.friends_count"
         >
-          <FriendList :user-id="userId">
-            <template v-slot:item="{item}">
-              <FollowCard :user="item" />
-            </template>
-          </FriendList>
+          <tab-switcher
+            :active-tab="followsTab"
+            :render-only-focused="true"
+            :on-switch="onFollowsTabSwitch"
+          >
+            <div
+              key="users"
+              :label="$t('user_card.followed_users')"
+            >
+              <FriendList :user-id="userId">
+                <template #item="{item}">
+                  <FollowCard :user="item" />
+                </template>
+              </FriendList>
+            </div>
+            <div
+              key="tags"
+              v-if="isUs"
+              :label="$t('user_card.followed_tags')"
+            >
+              <FollowedTagList
+                :user-id="userId"
+                :get-key="(item) => item.name"
+              >
+                <template #item="{item}">
+                  <FollowedTagCard :tag="item" />
+                </template>
+                <template #empty>
+                  {{ $t('user_card.not_following_any_hashtags')}}
+                </template>
+              </FollowedTagList>
+            </div>
+          </tab-switcher>
         </div>
         <div
           v-if="followersTabVisible"
           key="followers"
           :label="$t('user_card.followers')"
-          :disabled="!user.followers_count"
         >
           <FollowerList :user-id="userId">
-            <template v-slot:item="{item}">
+            <template #item="{item}">
               <FollowCard
                 :user="item"
                 :no-follows-you="isUs"
@@ -224,6 +259,11 @@
         overflow: hidden;
         padding: 0.5em 1.5em;
         box-sizing: border-box;
+      }
+
+      .user-profile-field-validated {
+        margin-left: 1rem;
+        color: green;
       }
     }
   }

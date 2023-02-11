@@ -5,9 +5,9 @@ import { compact, map, each, mergeWith, last, concat, uniq, isArray } from 'loda
 import { registerPushNotifications, unregisterPushNotifications } from '../services/push/push.js'
 
 // TODO: Unify with mergeOrAdd in statuses.js
-export const mergeOrAdd = (arr, obj, item) => {
+export const mergeOrAdd = (arr, obj, item, key = 'id') => {
   if (!item) { return false }
-  const oldItem = obj[item.id]
+  const oldItem = obj[item[key]]
   if (oldItem) {
     // We already have this, so only merge the new info.
     mergeWith(oldItem, item, mergeArrayLength)
@@ -15,7 +15,7 @@ export const mergeOrAdd = (arr, obj, item) => {
   } else {
     // This is a new item, prepare it
     arr.push(item)
-    obj[item.id] = item
+    obj[item[key]] = item
     if (item.screen_name && !item.screen_name.includes('@')) {
       obj[item.screen_name.toLowerCase()] = item
     }
@@ -157,6 +157,14 @@ export const mutations = {
     const user = state.usersObject[id]
     user.followerIds = uniq(concat(user.followerIds || [], followerIds))
   },
+  saveFollowedTagIds (state, { id, followedTagIds }) {
+    const user = state.usersObject[id]
+    user.followedTagIds = uniq(concat(user.followedTagIds || [], followedTagIds))
+  },
+  saveFollowedTagPagination (state, { id, pagination }) {
+    const user = state.usersObject[id]
+    user.followedTagPagination = pagination
+  },
   // Because frontend doesn't have a reason to keep these stuff in memory
   // outside of viewing someones user profile.
   clearFriends (state, userId) {
@@ -169,6 +177,12 @@ export const mutations = {
     const user = state.usersObject[userId]
     if (user) {
       user['followerIds'] = []
+    }
+  },
+  clearFollowedTags (state, userId) {
+    const user = state.usersObject[userId]
+    if (user) {
+      user['followedTagIds'] = []
     }
   },
   addNewUsers (state, users) {
@@ -251,6 +265,12 @@ export const mutations = {
   signUpFailure (state, errors) {
     state.signUpPending = false
     state.signUpErrors = errors
+  },
+  decrementFollowRequestsCount (store) {
+    store.currentUser.follow_requests_count--
+  },
+  incrementFollowRequestsCount (store) {
+    store.currentUser.follow_requests_count++
   }
 }
 
@@ -271,7 +291,7 @@ export const getters = {
   relationship: state => id => {
     const rel = id && state.relationships[id]
     return rel || { id, loading: true }
-  }
+  },
 }
 
 export const defaultState = {
@@ -282,7 +302,9 @@ export const defaultState = {
   usersObject: {},
   signUpPending: false,
   signUpErrors: [],
-  relationships: {}
+  relationships: {},
+  tags: [],
+  tagsObject: {}
 }
 
 const users = {
@@ -402,11 +424,26 @@ const users = {
           return followers
         })
     },
+    fetchFollowedTags ({ rootState, commit }, id) {
+      const user = rootState.users.usersObject[id]
+      const pagination = user.followedTagPagination
+
+      return rootState.api.backendInteractor.getFollowedHashtags({ pagination })
+        .then(({ data: tags, pagination }) => {
+          each(tags, tag => commit('setTag', { name: tag.name, data: tag }))
+          commit('saveFollowedTagIds', { id, followedTagIds: tags.map(tag => tag.name) })
+          commit('saveFollowedTagPagination', { id, pagination })
+          return tags
+        })
+    },
     clearFriends ({ commit }, userId) {
       commit('clearFriends', userId)
     },
     clearFollowers ({ commit }, userId) {
       commit('clearFollowers', userId)
+    },
+    clearFollowedTags ({ commit }, userId) {
+      commit('clearFollowedTags', userId)
     },
     subscribeUser ({ rootState, commit }, id) {
       return rootState.api.backendInteractor.subscribeUser({ id })
@@ -473,6 +510,12 @@ const users = {
         store.commit('setUserForNotification', notification)
       })
     },
+    decrementFollowRequestsCount (store) {
+      store.commit('decrementFollowRequestsCount')
+    },
+    incrementFollowRequestsCount (store) {
+      store.commit('incrementFollowRequestsCount')
+    },
     searchUsers ({ rootState, commit }, { query }) {
       return rootState.api.backendInteractor.searchUsers({ query })
         .then((users) => {
@@ -536,7 +579,6 @@ const users = {
           store.dispatch('stopFetchingTimeline', 'friends')
           store.commit('setBackendInteractor', backendInteractorService(store.getters.getToken()))
           store.dispatch('stopFetchingNotifications')
-          store.dispatch('stopFetchingFollowRequests')
           store.dispatch('stopFetchingConfig')
           store.commit('clearNotifications')
           store.commit('resetStatuses')

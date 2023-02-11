@@ -1,6 +1,7 @@
 import { each, map, concat, last, get } from 'lodash'
 import { parseStatus, parseSource, parseUser, parseNotification, parseReport, parseAttachment, parseLinkHeaderPagination } from '../entity_normalizer/entity_normalizer.service.js'
 import { RegistrationError, StatusCodeError } from '../errors/errors'
+import { Url } from 'url'
 
 /* eslint-env browser */
 const MUTES_IMPORT_URL = '/api/pleroma/mutes_import'
@@ -11,11 +12,11 @@ const CHANGE_EMAIL_URL = '/api/pleroma/change_email'
 const CHANGE_PASSWORD_URL = '/api/pleroma/change_password'
 const MOVE_ACCOUNT_URL = '/api/pleroma/move_account'
 const ALIASES_URL = '/api/pleroma/aliases'
-const TAG_USER_URL = '/api/pleroma/admin/users/tag'
-const PERMISSION_GROUP_URL = (screenName, right) => `/api/pleroma/admin/users/${screenName}/permission_group/${right}`
-const ACTIVATE_USER_URL = '/api/pleroma/admin/users/activate'
-const DEACTIVATE_USER_URL = '/api/pleroma/admin/users/deactivate'
-const ADMIN_USERS_URL = '/api/pleroma/admin/users'
+const TAG_USER_URL = '/api/v1/pleroma/admin/users/tag'
+const PERMISSION_GROUP_URL = (screenName, right) => `/api/v1/pleroma/admin/users/${screenName}/permission_group/${right}`
+const ACTIVATE_USER_URL = '/api/v1/pleroma/admin/users/activate'
+const DEACTIVATE_USER_URL = '/api/v1/pleroma/admin/users/deactivate'
+const ADMIN_USERS_URL = '/api/v1/pleroma/admin/users'
 const SUGGESTIONS_URL = '/api/v1/suggestions'
 const NOTIFICATION_SETTINGS_URL = '/api/pleroma/notification_settings'
 const NOTIFICATION_READ_URL = '/api/v1/pleroma/notifications/read'
@@ -111,6 +112,7 @@ const AKKOMA_SETTING_PROFILE_LIST = `/api/v1/akkoma/frontend_settings/pleroma-fe
 const MASTODON_TAG_URL = (name) => `/api/v1/tags/${name}`
 const MASTODON_FOLLOW_TAG_URL = (name) => `/api/v1/tags/${name}/follow`
 const MASTODON_UNFOLLOW_TAG_URL = (name) => `/api/v1/tags/${name}/unfollow`
+const MASTODON_FOLLOWED_TAGS_URL = '/api/v1/followed_tags'
 
 const oldfetch = window.fetch
 
@@ -246,7 +248,7 @@ const register = ({ params, credentials }) => {
     })
 }
 
-const getCaptcha = () => fetch('/api/pleroma/captcha').then(resp => resp.json())
+const getCaptcha = () => fetch('/api/v1/pleroma/captcha').then(resp => resp.json())
 
 const authHeaders = (accessToken) => {
   if (accessToken) {
@@ -404,14 +406,6 @@ const fetchFollowers = ({ id, maxId, sinceId, limit = 20, credentials }) => {
     .then((data) => data.json())
     .then((data) => data.map(parseUser))
 }
-
-const fetchFollowRequests = ({ credentials }) => {
-  const url = MASTODON_FOLLOW_REQUESTS_URL
-  return fetch(url, { headers: authHeaders(credentials) })
-    .then((data) => data.json())
-    .then((data) => data.map(parseUser))
-}
-
 const fetchLists = ({ credentials }) => {
   const url = MASTODON_LISTS_URL
   return fetch(url, { headers: authHeaders(credentials) })
@@ -878,7 +872,8 @@ const postStatus = ({
   quoteId,
   contentType,
   preview,
-  idempotencyKey
+  idempotencyKey,
+  language
 }) => {
   const form = new FormData()
   const pollOptions = poll.options || []
@@ -889,6 +884,7 @@ const postStatus = ({
   if (visibility) form.append('visibility', visibility)
   if (sensitive) form.append('sensitive', sensitive)
   if (contentType) form.append('content_type', contentType)
+  if (language) form.append('language', language)
   mediaIds.forEach(val => {
     form.append('media_ids[]', val)
   })
@@ -1335,7 +1331,7 @@ const fetchEmojiReactions = ({ id, credentials }) => {
 
 const reactWithEmoji = ({ id, emoji, credentials }) => {
   return promisedRequest({
-    url: PLEROMA_EMOJI_REACT_URL(id, emoji),
+    url: PLEROMA_EMOJI_REACT_URL(id, encodeURIComponent(emoji)),
     method: 'PUT',
     credentials
   }).then(parseStatus)
@@ -1343,7 +1339,7 @@ const reactWithEmoji = ({ id, emoji, credentials }) => {
 
 const unreactWithEmoji = ({ id, emoji, credentials }) => {
   return promisedRequest({
-    url: PLEROMA_EMOJI_UNREACT_URL(id, emoji),
+    url: PLEROMA_EMOJI_UNREACT_URL(id, encodeURIComponent(emoji)),
     method: 'DELETE',
     credentials
   }).then(parseStatus)
@@ -1575,6 +1571,48 @@ const unfollowHashtag = ({ tag, credentials }) => {
   })
 }
 
+const getFollowedHashtags = ({ credentials, pagination: savedPagination }) => {
+  const queryParams = new URLSearchParams()
+  if (savedPagination?.maxId) {
+    queryParams.append('max_id', savedPagination.maxId)
+  }
+  const url = `${MASTODON_FOLLOWED_TAGS_URL}?${queryParams.toString()}`
+  let pagination = {};
+  return fetch(url, {
+    credentials
+  }).then((data) => {
+    pagination = parseLinkHeaderPagination(data.headers.get('Link'), {
+      flakeId: false
+    });
+    return data.json()
+  }).then((data) => {
+    return {
+      pagination,
+      data
+    }
+  });
+}
+
+const getFollowRequests = ({ credentials, pagination: savedPagination }) => {
+  const queryParams = new URLSearchParams()
+  if (savedPagination?.maxId) {
+    queryParams.append('max_id', savedPagination.maxId)
+  }
+  const url = `${MASTODON_FOLLOW_REQUESTS_URL}?${queryParams.toString()}`
+  let pagination = {};
+  return fetch(url, {
+    credentials
+  }).then((data) => {
+    pagination = parseLinkHeaderPagination(data.headers.get('Link'), { flakeId: true });
+    return data.json()
+  }).then((data) => {
+    return {
+      pagination,
+      data: data.map(parseUser)
+    }
+  });
+}
+
 export const getMastodonSocketURI = ({ credentials, stream, args = {} }) => {
   return Object.entries({
     ...(credentials
@@ -1764,7 +1802,6 @@ const apiService = {
   mfaConfirmOTP,
   addBackup,
   listBackups,
-  fetchFollowRequests,
   fetchLists,
   createList,
   getList,
@@ -1813,7 +1850,9 @@ const apiService = {
   deleteNoteFromReport,
   getHashtag,
   followHashtag,
-  unfollowHashtag
+  unfollowHashtag,
+  getFollowedHashtags,
+  getFollowRequests
 }
 
 export default apiService

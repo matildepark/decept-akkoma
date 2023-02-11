@@ -10,11 +10,14 @@ import withLoadMore from '../../hocs/with_load_more/with_load_more'
 import { debounce } from 'lodash'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
-  faCircleNotch
+  faCircleNotch,
+  faCircleCheck
 } from '@fortawesome/free-solid-svg-icons'
+import FollowedTagCard from '../followed_tag_card/FollowedTagCard.vue'
 
 library.add(
-  faCircleNotch
+  faCircleNotch,
+  faCircleCheck
 )
 
 const FollowerList = withLoadMore({
@@ -33,6 +36,14 @@ const FriendList = withLoadMore({
   additionalPropNames: ['userId']
 })(List)
 
+const FollowedTagList = withLoadMore({
+  fetch: (props, $store) => $store.dispatch('fetchFollowedTags', props.userId),
+  select: (props, $store) => get($store.getters.findUser(props.userId), 'followedTagIds', []).map(id => $store.getters.findTag(id)),
+  destroy: (props, $store) => $store.dispatch('clearFollowedTags', props.userId),
+  childPropName: 'items',
+  additionalPropNames: ['userId']
+})(List)
+
 const isUserPage = ({ name }) => name === 'user-profile' || name === 'external-user-profile'
 
 const UserProfile = {
@@ -41,6 +52,7 @@ const UserProfile = {
       error: false,
       userId: null,
       tab: 'statuses',
+      followsTab: 'users',
       footerRef: null,
       note: null,
       noteLoading: false
@@ -165,6 +177,9 @@ const UserProfile = {
       this.tab = tab
       this.$router.replace({ hash: `#${tab}` })
     },
+    onFollowsTabSwitch (tab) {
+      this.followsTab = tab
+    },
     linkClicked ({ target }) {
       if (target.tagName === 'SPAN') {
         target = target.parentNode
@@ -200,6 +215,7 @@ const UserProfile = {
     }
   },
   components: {
+    FollowedTagCard,
     UserCard,
     Timeline,
     FollowerList,
@@ -207,7 +223,8 @@ const UserProfile = {
     FollowCard,
     TabSwitcher,
     Conversation,
-    RichContent
+    RichContent,
+    FollowedTagList
   }
 }
 
