@@ -17,7 +17,10 @@
       class="avatar -placeholder"
       :class="{ '-compact': compact }"
     />
-    <i v-if="bot" class="las la-robot bot-indicator" />
+    <i
+      v-if="bot"
+      class="las la-robot bot-indicator"
+    />
   </span>
 </template>
 

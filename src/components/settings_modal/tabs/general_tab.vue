@@ -21,7 +21,6 @@
             >
               {{ $t('settings.settings_profile_force_sync') }}
             </button>
-
           </p>
           <div
             @click="toggleExpandedSettings"
@@ -45,7 +44,6 @@
           <template
             v-if="profilesExpanded"
           >
-
             <div
               v-for="profile in settingsProfiles"
               :key="profile.id"
@@ -74,15 +72,24 @@
                 </button>
               </template>
             </div>
-            <button class="btn button-default" @click="refreshProfiles()">
+            <button
+              class="btn button-default"
+              @click="refreshProfiles()"
+            >
               {{ $t('settings.settings_profiles_refresh') }}
-              <FAIcon icon="sync" @click="refreshProfiles()" />
+              <FAIcon
+                icon="sync"
+                @click="refreshProfiles()"
+              />
             </button>
             <h3>{{ $t('settings.settings_profile_creation') }}</h3>
             <label for="settings-profile-new-name">
               {{ $t('settings.settings_profile_creation_new_name_label') }}
             </label>
-            <input v-model="newProfileName" id="settings-profile-new-name">
+            <input
+              id="settings-profile-new-name"
+              v-model="newProfileName"
+            >
             <button
               class="btn button-default"
               @click="createSettingsProfile"

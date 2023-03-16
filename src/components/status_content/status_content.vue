@@ -63,7 +63,7 @@
   </div>
 </template>
 
-<script src="./status_content.js" ></script>
+<script src="./status_content.js"></script>
 <style lang="scss">
 .StatusContent {
   flex: 1;

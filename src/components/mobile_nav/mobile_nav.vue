@@ -46,7 +46,10 @@
           class="button-unstyled mobile-nav-button"
           @click.stop.prevent="openMobileNotifications()"
         >
-          <i class="las la-bell" style="color: var(--topBarLink,#d8a070)"></i>
+          <i
+            class="las la-bell"
+            style="color: var(--topBarLink,#d8a070)"
+          />
           <div
             v-if="unseenNotificationsCount"
             class="alert-dot"

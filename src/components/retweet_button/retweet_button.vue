@@ -15,7 +15,12 @@
       />
     </button>
     <span v-else-if="loggedIn">
-      <i style="font-size:16px;" :class="classes" class="RetweetButton las la-lock" :title="$t('timeline.no_retweet_hint')"/>
+      <i
+        style="font-size:16px;"
+        :class="classes"
+        class="RetweetButton las la-lock"
+        :title="$t('timeline.no_retweet_hint')"
+      />
     </span>
     <a
       v-else
@@ -24,7 +29,12 @@
       role="button"
       :href="remoteInteractionLink"
     >
-    <i style="font-size:16px;" :class="classes" class="RetweetButton las la-retweet" :title="$t('tool_tip.repeat')"/>
+      <i
+        style="font-size:16px;"
+        :class="classes"
+        class="RetweetButton las la-retweet"
+        :title="$t('tool_tip.repeat')"
+      />
     </a>
     <span
       v-if="!mergedConfig.hidePostStats && status.repeat_num > 0"

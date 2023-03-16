@@ -21,7 +21,10 @@
               :user="user"
             />
             <div class="user-info-avatar-link-overlay">
-              <i class="las la-search-plus" style="font-size: 1.2rem;"/>
+              <i
+                class="las la-search-plus"
+                style="font-size: 1.2rem;"
+              />
             </div>
           </a>
           <router-link
@@ -57,7 +60,7 @@
                 target="_blank"
                 class="button-unstyled external-link-button"
               >
-              <svg
+                <svg
                   style="display:inline-block;vertical-align:middle;cursor:pointer;margin-left:4px;margin-right:4px;"
                   width="16px"
                   height="16px"

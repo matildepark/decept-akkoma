@@ -46,7 +46,6 @@
     </div>
   </div>
 </template>
-<style lang="scss" src="./color_input.scss"></style>
 <script>
 import Checkbox from '../checkbox/checkbox.vue'
 import { hex2rgb } from '../../services/color_convert/color_convert.js'
@@ -108,6 +107,7 @@ export default {
   }
 }
 </script>
+<style lang="scss" src="./color_input.scss"></style>
 
 <style lang="scss">
 .color-control {

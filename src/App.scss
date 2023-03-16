@@ -547,7 +547,7 @@ option {
 
 .hide-number-spinner {
   -moz-appearance: textfield;
-
+  appearance: textfield;
   &[type=number]::-webkit-inner-spin-button,
   &[type=number]::-webkit-outer-spin-button {
     opacity: 0;

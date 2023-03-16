@@ -48,6 +48,6 @@
   </span>
 </template>
 
-<script src="./mention_link.js"/>
+<script src="./mention_link.js" />
 
-<style lang="scss" src="./mention_link.scss"/>
+<style lang="scss" src="./mention_link.scss" />

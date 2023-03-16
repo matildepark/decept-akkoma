@@ -17,9 +17,9 @@
             v-for="status in history"
             :key="status.id"
             :statusoid="status"
-            :isPreview="true"
+            :is-preview="true"
             class="conversation-status status-fadein panel-body"
-        />
+          />
         </div>
       </div>
     </div>

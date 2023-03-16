@@ -51,7 +51,10 @@
           class="button-unstyled nav-icon"
           @click.stop="openModModal"
         >
-          <i class="las la-tasks" style="color: var(--topBarLink, #d8a070); font-size: 16px; vertical-align: middle;"></i>
+          <i
+            class="las la-tasks"
+            style="color: var(--topBarLink, #d8a070); font-size: 16px; vertical-align: middle;"
+          />
         </button>
         <a
           v-if="currentUser && currentUser.role === 'admin'"

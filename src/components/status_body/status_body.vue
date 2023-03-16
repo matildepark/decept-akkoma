@@ -89,7 +89,10 @@
                 </option>
               </Select>
               {{ ' ' }}
-              <button @click="translateStatus" class="btn button-default">
+              <button
+                class="btn button-default"
+                @click="translateStatus"
+              >
                 {{ $t('status.translate') }}
               </button>
             </div>
@@ -138,5 +141,5 @@
     <slot v-if="!hideSubjectStatus" />
   </div>
 </template>
-<script src="./status_body.js" ></script>
+<script src="./status_body.js"></script>
 <style lang="scss" src="./status_body.scss" />
