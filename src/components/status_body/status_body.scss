@@ -13,6 +13,7 @@
   .emoji {
     --_still_image-label-scale: 0.5;
     --emoji-size: 38px;
+    width: var(--emoji-size);
   }
 
   .emoji:hover {
