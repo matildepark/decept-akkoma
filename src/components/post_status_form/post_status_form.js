@@ -13,6 +13,7 @@ import suggestor from '../emoji_input/suggestor.js'
 import { mapGetters, mapState } from 'vuex'
 import Checkbox from '../checkbox/checkbox.vue'
 import Select from '../select/select.vue'
+import iso6391 from 'iso-639-1'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -53,6 +54,14 @@ const pxStringToNumber = (str) => {
   return Number(str.substring(0, str.length - 2))
 }
 
+const deleteDraft = (draftKey) => {
+	const draftData = JSON.parse(localStorage.getItem('drafts') || '{}');
+
+	delete draftData[draftKey];
+
+	localStorage.setItem('drafts', JSON.stringify(draftData));
+}
+
 const PostStatusForm = {
   props: [
     'statusId',
@@ -63,6 +72,7 @@ const PostStatusForm = {
     'statusMediaDescriptions',
     'statusScope',
     'statusContentType',
+    'statusLanguage',
     'replyTo',
     'quoteId',
     'repliedUser',
@@ -128,7 +138,7 @@ const PostStatusForm = {
       statusText = buildMentionsString({ user: this.repliedUser, attentions: this.attentions }, currentUser)
     }
 
-    const { postContentType: contentType, sensitiveByDefault, sensitiveIfSubject } = this.$store.getters.mergedConfig
+    const { postContentType: contentType, sensitiveByDefault, sensitiveIfSubject, interfaceLanguage } = this.$store.getters.mergedConfig
 
     let statusParams = {
       spoilerText: this.subject || '',
@@ -139,6 +149,7 @@ const PostStatusForm = {
       poll: {},
       mediaDescriptions: {},
       visibility: this.suggestedVisibility(),
+      language: interfaceLanguage,
       contentType
     }
 
@@ -153,7 +164,36 @@ const PostStatusForm = {
         poll: this.statusPoll || {},
         mediaDescriptions: this.statusMediaDescriptions || {},
         visibility: this.statusScope || this.suggestedVisibility(),
+        language: this.statusLanguage || interfaceLanguage,
         contentType: statusContentType
+      }
+    }
+
+    let draftKey = 'status';
+    if (this.replyTo) {
+      draftKey = 'reply:' + this.replyTo;
+    } else if (this.quoteId) {
+      draftKey = 'quote:' + this.quoteId;
+    }
+
+    const draft = JSON.parse(localStorage.getItem('drafts') || '{}')[draftKey];
+
+    if (draft) {
+      statusParams = {
+        spoilerText: draft.data.spoilerText,
+        status: draft.data.status,
+        sensitiveIfSubject,
+        nsfw: draft.data.nsfw,
+        files: draft.data.files,
+        poll: draft.data.poll,
+        mediaDescriptions: draft.data.mediaDescriptions,
+        visibility: draft.data.visibility,
+        language: draft.data.language,
+        contentType: draft.data.contentType
+      }
+
+      if (draft.data.poll) {
+        this.togglePollForm();
       }
     }
 
@@ -259,7 +299,10 @@ const PostStatusForm = {
     ...mapGetters(['mergedConfig']),
     ...mapState({
       mobileLayout: state => state.interface.mobileLayout
-    })
+    }),
+    isoLanguages () {
+      return iso6391.getAllCodes();
+    }
   },
   watch: {
     'newStatus': {
@@ -273,6 +316,7 @@ const PostStatusForm = {
     statusChanged () {
       this.autoPreview()
       this.updateIdempotencyKey()
+      this.saveDraft()
     },
     clearStatus () {
       const newStatus = this.newStatus
@@ -282,6 +326,7 @@ const PostStatusForm = {
         files: [],
         visibility: newStatus.visibility,
         contentType: newStatus.contentType,
+        language: newStatus.language,
         poll: {},
         mediaDescriptions: {}
       }
@@ -341,6 +386,7 @@ const PostStatusForm = {
         inReplyToStatusId: this.replyTo,
         quoteId: this.quoteId,
         contentType: newStatus.contentType,
+        language: newStatus.language,
         poll,
         idempotencyKey: this.idempotencyKey
       }
@@ -375,6 +421,7 @@ const PostStatusForm = {
         inReplyToStatusId: this.replyTo,
         quoteId: this.quoteId,
         contentType: newStatus.contentType,
+        language: newStatus.language,
         poll: {},
         preview: true
       }).then((data) => {
@@ -391,8 +438,38 @@ const PostStatusForm = {
       }).finally(() => {
         this.previewLoading = false
       })
+
+      let draftKey = 'status';
+      if (this.replyTo) {
+        draftKey = 'reply:' + this.replyTo;
+      } else if (this.quoteId) {
+        draftKey = 'quote:' + this.quoteId;
+      }
+      deleteDraft(draftKey)
     },
     debouncePreviewStatus: debounce(function () { this.previewStatus() }, 500),
+    saveDraft() {
+      const draftData = JSON.parse(localStorage.getItem('drafts') || '{}');
+
+      let draftKey = 'status';
+      if (this.replyTo) {
+        draftKey = 'reply:' + this.replyTo;
+      } else if (this.quoteId) {
+        draftKey = 'quote:' + this.quoteId;
+      }
+
+      if (this.newStatus.status || this.newStatus.spoilerText || this.newStatus.files.length > 0 || this.newStatus.poll.length > 0) {
+          draftData[draftKey] = {
+          updatedAt: new Date(),
+          data: this.newStatus,
+        };
+
+        localStorage.setItem('drafts', JSON.stringify(draftData));
+
+      } else {
+        deleteDraft(draftKey);
+      }
+    },
     autoPreview () {
       if (!this.preview) return
       this.previewLoading = true

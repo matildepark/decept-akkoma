@@ -25,6 +25,9 @@
   src: url("https://decept.org/static/font/MPLUS1p-Bold.woff2") format('woff2');
 }
 
+@import '@fortawesome/fontawesome-svg-core/styles.css';
+@import '@floatingghost/pinch-zoom-element/dist/pinch-zoom.css';
+
 :root {
   --navbar-height: 3.5rem;
   --post-line-height: 1.4;

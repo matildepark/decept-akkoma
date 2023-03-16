@@ -44,6 +44,10 @@
       <div class="panel-body">
         <SettingsModalContent v-if="modalOpenedOnce" />
       </div>
+      <span
+        id="unscrolled-content"
+        class="extra-content"
+      />
       <div class="panel-footer settings-footer">
         <Popover
           class="export"
@@ -103,14 +107,11 @@
 
         <Checkbox
           :model-value="!!expertLevel"
+          class="expertMode"
           @update:modelValue="expertLevel = Number($event)"
         >
           {{ $t("settings.expert_mode") }}
         </Checkbox>
-        <span
-          id="unscrolled-content"
-          class="extra-content"
-        />
         <button
           v-if="currentUser"
           class="button-default logout-button"

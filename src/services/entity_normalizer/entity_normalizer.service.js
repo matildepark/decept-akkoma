@@ -68,13 +68,15 @@ export const parseUser = (data) => {
     output.fields_html = data.fields.map(field => {
       return {
         name: escape(field.name),
-        value: field.value
+        value: field.value,
+        verified_at: field.verified_at
       }
     })
     output.fields_text = data.fields.map(field => {
       return {
         name: unescape(field.name.replace(/<[^>]*>/g, '')),
-        value: unescape(field.value.replace(/<[^>]*>/g, ''))
+        value: unescape(field.value.replace(/<[^>]*>/g, '')),
+        verified_at: field.verified_at
       }
     })
 
@@ -88,6 +90,7 @@ export const parseUser = (data) => {
     output.friends_count = data.following_count
 
     output.bot = data.bot
+    output.follow_requests_count = data.follow_requests_count
     if (data.akkoma) {
       output.instance = data.akkoma.instance
       output.status_ttl_days = data.akkoma.status_ttl_days
@@ -232,13 +235,14 @@ export const parseAttachment = (data) => {
   if (masto) {
     // Not exactly same...
     output.mimetype = data.pleroma ? data.pleroma.mime_type : data.type
-    output.meta = data.meta // not present in BE yet
+    output.meta = data.meta
     output.id = data.id
   } else {
     output.mimetype = data.mimetype
     // output.meta = ??? missing
   }
 
+  output.blurhash = data.blurhash
   output.url = data.url
   output.large_thumb_url = data.preview_url
   output.description = data.description
@@ -408,8 +412,10 @@ export const parseNotification = (data) => {
   if (masto) {
     output.type = mastoDict[data.type] || data.type
     output.seen = data.pleroma.is_seen
-    output.status = isStatusNotification(output.type) ? parseStatus(data.status) : null
-    output.action = output.status // TODO: Refactor, this is unneeded
+    if (data.status) {
+      output.status = isStatusNotification(output.type) ? parseStatus(data.status) : null
+      output.action = output.status // TODO: Refactor, this is unneeded
+    }
     output.target = output.type !== 'move'
       ? null
       : parseUser(data.target)

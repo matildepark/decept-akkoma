@@ -2,7 +2,7 @@
 
 .user-card {
   position: relative;
-  z-index: 1;
+  z-index: 10;
 
   &:hover {
     --_still-image-img-visibility: visible;
@@ -236,7 +236,7 @@
     line-height: 22px;
     flex-wrap: wrap;
 
-    .following, .requested_by {
+    .following, .requested_by, .blocking {
       flex: 1 0 auto;
       margin: 0;
       margin-bottom: .25em;

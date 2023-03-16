@@ -59,7 +59,8 @@ const withLoadMore = ({
               this.loading = false
               this.bottomedOut = isEmpty(newEntries)
             })
-            .catch(() => {
+            .catch((e) => {
+              console.error(e)
               this.loading = false
               this.error = true
             })
@@ -88,7 +89,7 @@ const withLoadMore = ({
       const children = this.$slots
       return (
         <div class="with-load-more">
-          <WrappedComponent {...props}>
+          <WrappedComponent {...props} >
             {children}
           </WrappedComponent>
           <div class="with-load-more-footer">

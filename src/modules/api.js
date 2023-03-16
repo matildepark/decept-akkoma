@@ -1,18 +1,29 @@
 import backendInteractorService from '../services/backend_interactor_service/backend_interactor_service.js'
 import { WSConnectionStatus } from '../services/api/api.service.js'
+import { map } from 'lodash'
 
 const retryTimeout = (multiplier) => 1000 * multiplier
 
 const isVisible = (store, message, visibility) => {
-  if (visibility === 'all') {
+  if (visibility == 'all') {
     return true
-  } else if (visibility === 'following') {
-    return store.getters.relationship(message.in_reply_to_user_id).following
-  } else if (visibility === 'self') {
+  }
+
+  if (visibility == 'following') {
+    if (message.in_reply_to_user_id === null) {
+      return true
+    } else {
+      return store.getters.relationship(message.in_reply_to_user_id).following
+    }
+  }
+
+  if (visibility == 'self') {
     return message.in_reply_to_user_id === store.rootState.users.currentUser.id
   }
+
   return false
 }
+
 const api = {
   state: {
     retryMultiplier: 1,
@@ -40,9 +51,6 @@ const api = {
     setSocket (state, socket) {
       state.socket = socket
     },
-    setFollowRequests (state, value) {
-      state.followRequests = value
-    },
     setMastoUserSocketStatus (state, value) {
       state.mastoUserSocketStatus = value
     },
@@ -51,6 +59,15 @@ const api = {
     },
     resetRetryMultiplier (state) {
       state.retryMultiplier = 1
+    },
+    setFollowRequests (state, value) {
+      state.followRequests = [...value]
+    },
+    saveFollowRequests (state, requests) {
+      state.followRequests = [...state.followRequests, ...requests]
+    },
+    saveFollowRequestPagination (state, pagination) {
+      state.followRequestsPagination = pagination
     }
   },
   actions: {
@@ -240,24 +257,22 @@ const api = {
         ...rest
       })
     },
-
-    // Follow requests
-    startFetchingFollowRequests (store) {
-      if (store.state.fetchers['followRequests']) return
-      const fetcher = store.state.backendInteractor.startFetchingFollowRequests({ store })
-
-      store.commit('addFetcher', { fetcherName: 'followRequests', fetcher })
-    },
-    stopFetchingFollowRequests (store) {
-      const fetcher = store.state.fetchers.followRequests
-      if (!fetcher) return
-      store.commit('removeFetcher', { fetcherName: 'followRequests', fetcher })
-    },
     removeFollowRequest (store, request) {
-      let requests = store.state.followRequests.filter((it) => it !== request)
+      let requests = [...store.state.followRequests].filter((it) => it.id !== request.id)
       store.commit('setFollowRequests', requests)
     },
-
+    fetchFollowRequests ({ rootState, commit }) {
+      const pagination = rootState.api.followRequestsPagination
+      return rootState.api.backendInteractor.getFollowRequests({ pagination })
+        .then((requests) => {
+          if (requests.data.length > 0) {
+            commit('addNewUsers', requests.data)
+            commit('saveFollowRequests', requests.data)
+            commit('saveFollowRequestPagination', requests.pagination)
+          }
+          return requests
+        })
+    },
     // Lists
     startFetchingLists (store) {
       if (store.state.fetchers['lists']) return

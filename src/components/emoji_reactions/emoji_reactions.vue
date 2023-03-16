@@ -49,6 +49,7 @@
   display: flex;
   margin-top: 0.25em;
   flex-wrap: wrap;
+  container-type: inline-size;
 }
 
 .unicode-emoji {

@@ -364,22 +364,25 @@
             </div>
           </div>
 
-          <StatusContent
-            ref="content"
-            :status="status"
-            :no-heading="noHeading"
-            :highlight="highlight"
-            :focused="isFocused"
-            :controlled-showing-tall="controlledShowingTall"
-            :controlled-expanding-subject="controlledExpandingSubject"
-            :controlled-showing-long-subject="controlledShowingLongSubject"
-            :controlled-toggle-showing-tall="controlledToggleShowingTall"
-            :controlled-toggle-expanding-subject="controlledToggleExpandingSubject"
-            :controlled-toggle-showing-long-subject="controlledToggleShowingLongSubject"
-            @mediaplay="addMediaPlaying($event)"
-            @mediapause="removeMediaPlaying($event)"
-            @parseReady="setHeadTailLinks"
-          />
+          <div class="content">
+            <StatusContent
+              ref="content"
+              class="status-content"
+              :status="status"
+              :no-heading="noHeading"
+              :highlight="highlight"
+              :focused="isFocused"
+              :controlled-showing-tall="controlledShowingTall"
+              :controlled-expanding-subject="controlledExpandingSubject"
+              :controlled-showing-long-subject="controlledShowingLongSubject"
+              :controlled-toggle-showing-tall="controlledToggleShowingTall"
+              :controlled-toggle-expanding-subject="controlledToggleExpandingSubject"
+              :controlled-toggle-showing-long-subject="controlledToggleShowingLongSubject"
+              @mediaplay="addMediaPlaying($event)"
+              @mediapause="removeMediaPlaying($event)"
+              @parseReady="setHeadTailLinks"
+            />
+          </div>
 
           <div
             v-if="inConversation && !isPreview && replies && replies.length"

@@ -21,6 +21,8 @@ import postStatusModule from './modules/postStatus.js'
 import announcementsModule from './modules/announcements.js'
 import editStatusModule from './modules/editStatus.js'
 import statusHistoryModule from './modules/statusHistory.js'
+import tagModule from './modules/tags.js'
+import recentEmojisModule from './modules/recentEmojis.js'
 
 import { createI18n } from 'vue-i18n'
 
@@ -46,7 +48,8 @@ const persistedStateOptions = {
   paths: [
     'config',
     'users.lastLoginName',
-    'oauth'
+    'oauth',
+    'recentEmojis.emojis',
   ]
 };
 
@@ -96,7 +99,9 @@ const persistedStateOptions = {
       postStatus: postStatusModule,
       announcements: announcementsModule,
       editStatus: editStatusModule,
-      statusHistory: statusHistoryModule
+      statusHistory: statusHistoryModule,
+      tags: tagModule,
+      recentEmojis: recentEmojisModule,
     },
     plugins,
     strict: false // Socket modifies itself, let's ignore this for now.
