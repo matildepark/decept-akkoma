@@ -108,6 +108,7 @@
     margin-bottom: 0.5em;
 
     .emoji {
+      width: var(--emoji-size);
       --emoji-size: 16px;
     }
   }
