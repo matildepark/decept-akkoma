@@ -118,7 +118,7 @@ export const defaultState = {
   translationLanguage: undefined, // instance default,
   supportedTranslationLanguages: {}, // instance default
   userProfileDefaultTab: 'statuses',
-  useBlurhash: true,
+  useBlurhash: false,
 }
 
 // caching the instance default properties
