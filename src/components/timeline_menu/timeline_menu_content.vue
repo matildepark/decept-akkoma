@@ -16,7 +16,7 @@
         >{{ $t("nav.home_timeline") }}</span>
       </router-link>
     </li>
-    <li v-if="currentUser && showBubbleTimeline">
+    <li v-if="bubbleTimelineVisible">
       <router-link
         class="menu-item"
         :to="{ name: 'bubble-timeline' }"
@@ -32,7 +32,7 @@
         >{{ $t("nav.bubble_timeline") }}</span>
       </router-link>
     </li>
-    <li v-if="currentUser || !privateMode">
+    <li v-if="publicTimelineVisible">
       <router-link
         class="menu-item"
         :to="{ name: 'public-timeline' }"
@@ -48,7 +48,7 @@
         >{{ $t("nav.public_tl") }}</span>
       </router-link>
     </li>
-    <li v-if="federating && (currentUser || !privateMode)">
+    <li v-if="federatedTimelineVisible">
       <router-link
         class="menu-item"
         :to="{ name: 'public-external-timeline' }"
@@ -62,6 +62,7 @@
           :title="$t('nav.twkn_timeline_description')"
           :aria-label="$t('nav.twkn_timeline_description')"
         >{{ $t("nav.twkn") }}</span>
+
       </router-link>
     </li>
     <li v-if="currentUser">

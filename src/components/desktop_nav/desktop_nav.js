@@ -2,6 +2,11 @@ import SearchBar from 'components/search_bar/search_bar.vue'
 import ConfirmModal from '../confirm_modal/confirm_modal.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
+  publicTimelineVisible,
+  federatedTimelineVisible,
+  bubbleTimelineVisible,
+} from '../../lib/timeline_visibility'
+import {
   faSignInAlt,
   faSignOutAlt,
   faHome,
@@ -19,6 +24,7 @@ import {
   faInfoCircle,
   faUserTie
 } from '@fortawesome/free-solid-svg-icons'
+import { mapState } from 'vuex'
 
 library.add(
   faSignInAlt,
@@ -103,7 +109,12 @@ export default {
     },
     showBubbleTimeline () {
       return this.$store.state.instance.localBubbleInstances.length > 0
-    }
+    },
+    ...mapState({
+      publicTimelineVisible,
+      federatedTimelineVisible,
+      bubbleTimelineVisible,
+    })
   },
   methods: {
     scrollToTop () {
