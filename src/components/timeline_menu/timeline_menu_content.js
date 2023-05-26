@@ -8,6 +8,7 @@ import {
   faHome,
   faCircle
 } from '@fortawesome/free-solid-svg-icons'
+import { federatedTimelineVisible, publicTimelineVisible, bubbleTimelineVisible } from '../../lib/timeline_visibility'
 
 library.add(
   faUsers,
@@ -24,7 +25,9 @@ const TimelineMenuContent = {
       currentUser: state => state.users.currentUser,
       privateMode: state => state.instance.private,
       federating: state => state.instance.federating,
-      showBubbleTimeline: state => (state.instance.localBubbleInstances?.length > 0)
+      publicTimelineVisible,
+      federatedTimelineVisible,
+      bubbleTimelineVisible,
     })
   }
 }

@@ -18,6 +18,7 @@
     <router-link
       :to="{ name: 'public-timeline' }"
       class="nav-icon"
+      v-if="publicTimelineVisible"
     >
       <FAIcon
         fixed-width
@@ -27,7 +28,7 @@
       />
     </router-link>
     <router-link
-      v-if="currentUser"
+      v-if="bubbleTimelineVisible"
       :to="{ name: 'bubble-timeline' }"
       class="nav-icon"
     >
@@ -41,6 +42,7 @@
     <router-link
       :to="{ name: 'public-external-timeline' }"
       class="nav-icon"
+      v-if="federatedTimelineVisible"
     >
       <FAIcon
         fixed-width
