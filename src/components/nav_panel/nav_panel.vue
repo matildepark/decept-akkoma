@@ -1,11 +1,11 @@
 <template>
   <div class="NavPanel">
     <div class="panel panel-default">
-      <ul>
+      <ul style="text-align:right;">
         <li v-if="currentUser || !privateMode">
           <button
             class="button-unstyled menu-item"
-            style="margin: 0;"
+            style="margin: 0;text-align:right;"
             @click="toggleTimelines"
           >
             {{ $t("nav.timelines") }}
@@ -164,7 +164,7 @@
   }
 
   .timelines-background {
-    padding: 0 0 0 0.6em;
+    padding: 0 0.6rem 0 0;
     background-color: $fallback--lightBg;
     background-color: var(--selectedMenu, $fallback--lightBg);
     border-top: 1px solid;
