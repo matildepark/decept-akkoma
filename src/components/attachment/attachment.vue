@@ -26,7 +26,7 @@
         class="button-unstyled attachment-button"
         @click.prevent="onRemove"
       >
-        <FAIcon icon="trash-alt" />
+        <i class="las la-trash" />
       </button>
     </div>
     <div
@@ -117,7 +117,7 @@
           :title="$t('status.hide_attachment')"
           @click.prevent="toggleHidden"
         >
-          <FAIcon icon="times" />
+          <i class="las la-times" />
         </button>
         <button
           v-if="shiftUp"
@@ -125,7 +125,7 @@
           :title="$t('status.move_up')"
           @click.prevent="onShiftUp"
         >
-          <FAIcon icon="chevron-left" />
+          <i class="las la-arrow-left" />
         </button>
         <button
           v-if="shiftDn"
@@ -133,7 +133,7 @@
           :title="$t('status.move_down')"
           @click.prevent="onShiftDn"
         >
-          <FAIcon icon="chevron-right" />
+          <i class="las la-arrow-right" />
         </button>
         <button
           v-if="remove"
@@ -141,7 +141,7 @@
           :title="$t('status.remove_attachment')"
           @click.prevent="onRemove"
         >
-          <FAIcon icon="trash-alt" />
+          <i class="las la-trash" />
         </button>
       </div>
 

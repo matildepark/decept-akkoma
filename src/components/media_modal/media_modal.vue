@@ -61,10 +61,7 @@
       class="modal-view-button modal-view-button-arrow modal-view-button-arrow--prev"
       @click.stop.prevent="goPrev"
     >
-      <FAIcon
-        class="button-icon arrow-icon"
-        icon="chevron-left"
-      />
+    <i style="font-size:1.5rem;" class="button-icon arrow-icon las la-arrow-left"></i>
     </button>
     <button
       v-if="canNavigate"
@@ -72,20 +69,14 @@
       class="modal-view-button modal-view-button-arrow modal-view-button-arrow--next"
       @click.stop.prevent="goNext"
     >
-      <FAIcon
-        class="button-icon arrow-icon"
-        icon="chevron-right"
-      />
+    <i style="font-size:1.5rem;" class="button-icon arrow-icon las la-arrow-right"></i>
     </button>
     <button
       class="modal-view-button modal-view-button-hide"
       :title="$t('media_modal.hide')"
       @click.stop.prevent="hide"
     >
-      <FAIcon
-        class="button-icon"
-        icon="times"
-      />
+      <i style="font-size:1.5rem;" class="button-icon las la-times"></i>
     </button>
 
     <span
@@ -115,9 +106,9 @@
 <script src="./media_modal.js"></script>
 
 <style lang="scss">
-$modal-view-button-icon-height: 3em;
+$modal-view-button-icon-height: 2em;
 $modal-view-button-icon-half-height: calc(#{$modal-view-button-icon-height} / 2);
-$modal-view-button-icon-width: 3em;
+$modal-view-button-icon-width: 2em;
 $modal-view-button-icon-margin: 0.5em;
 
 .modal-view.media-modal-view {
@@ -126,7 +117,7 @@ $modal-view-button-icon-margin: 0.5em;
 
   .modal-view-button-arrow,
   .modal-view-button-hide {
-    opacity: 0.75;
+    opacity: 1;
 
     &:focus,
     &:hover {
@@ -237,9 +228,13 @@ $modal-view-button-icon-margin: 0.5em;
       width: $modal-view-button-icon-width;
       font-size: 1rem;
       line-height: $modal-view-button-icon-height;
-      color: #FFF;
+      color: var(--text,#000);
       text-align: center;
-      background-color: rgba(0,0,0,.3);
+      background-color: white;
+      border-color: var(--border,#000);
+      border-radius: var(--tooltipRadius, 3px);
+      border-style: solid;
+      border-width: 1px;
     }
   }
 
@@ -255,9 +250,7 @@ $modal-view-button-icon-margin: 0.5em;
       position: absolute;
       top: 0;
       line-height: $modal-view-button-icon-height;
-      color: #FFF;
       text-align: center;
-      background-color: rgba(0,0,0,.3);
     }
 
     &--prev {
