@@ -149,8 +149,10 @@
       height: 2em;
       margin-left: 0.5em;
       font-size: 1.25em;
-      // TODO: theming? hard to theme with unknown background image color
-      background: rgba(230, 230, 230, 0.7);
+      background: white;
+      border-color: var(--border, #000);
+      border-width: 1px;
+      border-style: solid;
 
       .svg-inline--fa {
         color: rgba(0, 0, 0, 0.6);

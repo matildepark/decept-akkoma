@@ -14,7 +14,7 @@
       :title="attachment.description"
       @click.prevent
     >
-      <FAIcon :icon="placeholderIconClass" />
+      <i :class="`las la-${placeholderIconClass}`" />
       <b>{{ nsfw ? "NSFW / " : "" }}</b>{{ edit ? '' : placeholderName }}
     </a>
     <div
@@ -101,7 +101,7 @@
           :title="$t('status.show_attachment_description')"
           @click.prevent="toggleDescription"
         >
-          <FAIcon icon="align-right" />
+        <i class="las la-align-right" />
         </button>
         <button
           v-if="!useModal && type !== 'unknown'"
@@ -109,7 +109,7 @@
           :title="$t('status.show_attachment_in_modal')"
           @click.prevent="openModalForce"
         >
-          <FAIcon icon="search-plus" />
+          <i class="las la-search-plus" />
         </button>
         <button
           v-if="nsfw && hideNsfwLocal"
@@ -169,10 +169,7 @@
         :href="attachment.url"
         target="_blank"
       >
-        <FAIcon
-          size="5x"
-          :icon="placeholderIconClass"
-        />
+        <i style="font-size:4rem;" :class="`las la-${placeholderIconClass}`" />
         <p>
           {{ localDescription }}
         </p>
