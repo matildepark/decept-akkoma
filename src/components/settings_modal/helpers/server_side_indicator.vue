@@ -8,8 +8,9 @@
     >
       <template #trigger>
         &nbsp;
-        <FAIcon
-          icon="server"
+        <i
+          style="font-size:1.25rem;vertical-align: middle;opacity:0.5;"
+          class="las la-server"
           :aria-label="$t('settings.setting_server_side')"
         />
       </template>

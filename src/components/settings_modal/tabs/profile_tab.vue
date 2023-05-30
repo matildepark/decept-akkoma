@@ -89,7 +89,7 @@
           class="add-field faint button-unstyled -hover-highlight"
           @click="addField"
         >
-          <FAIcon icon="plus" />
+          <i class="las la-plus" />
           {{ $t("settings.profile_fields.add_field") }}
         </button>
       </div>
@@ -156,7 +156,7 @@
           @click="resetAvatar"
         >
           <svg
-            stroke="var(--Text,#000000"
+            stroke="var(--Text,#000000)"
             width="16px"
             height="16px"
           >
