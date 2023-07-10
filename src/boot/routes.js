@@ -24,7 +24,6 @@ import ListEdit from 'components/list_edit/list_edit.vue'
 import AnnouncementsPage from 'components/announcements_page/announcements_page.vue'
 import RegistrationRequestSent from 'components/registration_request_sent/registration_request_sent.vue'
 import AwaitingEmailConfirmation from 'components/awaiting_email_confirmation/awaiting_email_confirmation.vue'
-import RealTerms from 'components/real_terms_of_service/terms.vue'
 import MRFTransparencyPanel from 'components/mrf_transparency_panel/mrf_transparency_panel.vue'
 
 export default (store) => {
@@ -86,7 +85,6 @@ export default (store) => {
     { name: 'announcements', path: '/announcements', component: AnnouncementsPage },
     { name: 'user-profile', path: '/:_(users)?/:name', component: UserProfile, meta: { dontScroll: true } },
     { name: 'federation', path: '/federation', component: MRFTransparencyPanel },
-    { name: 'terms-of-service', path: '/terms', component: RealTerms }
   ]
 
   return routes

@@ -31,17 +31,10 @@
         </div>
       </div>
       <ul>
-        <li
+        <!-- <li
           v-if="!currentUser"
         >
-          <a
-            class="register"
-            href="https://reciprocal.ltd/store"
-            target="_blank"
-          >
-            Register
-          </a>
-        </li>
+        </li> -->
         <li
           v-if="!currentUser"
           @click="toggleDrawer"

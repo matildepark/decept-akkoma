@@ -58,13 +58,6 @@
               >
                 {{ $t('login.register') }}
               </router-link>
-              <a
-                class="register"
-                href="https://reciprocal.ltd/store"
-                target="_blank"
-              >
-                Register
-              </a>
             </div>
             <button
               :disabled="loggingIn"
