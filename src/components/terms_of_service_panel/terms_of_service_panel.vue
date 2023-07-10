@@ -18,5 +18,8 @@
 <style lang="scss">
 .tos-content {
   margin: 1em
+  a {
+    border-bottom: 1px solid #000000;
+  }
 }
 </style>
