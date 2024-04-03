@@ -70,6 +70,9 @@
     border-top-right-radius: 0;
     border-top-left-radius: 0;
     transform: translateY(-100%);
+    @media (prefers-reduced-motion: reduce) {
+      transition: unset;
+    }
     transition: transform 100ms;
   }
 
@@ -97,6 +100,9 @@
 
     svg {
       margin-left: 0.6em;
+      @media (prefers-reduced-motion: reduce) {
+        transition: unset;
+      }
       transition: transform 100ms;
     }
 

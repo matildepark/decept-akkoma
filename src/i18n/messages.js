@@ -21,6 +21,7 @@ const loaders = {
   ga: () => import('./ga.json'),
   he: () => import('./he.json'),
   hu: () => import('./hu.json'),
+  id: () => import('./id.json'),
   it: () => import('./it.json'),
   ja: () => import('./ja_pedantic.json'),
   ja_easy: () => import('./ja_easy.json'),
@@ -35,6 +36,7 @@ const loaders = {
   sk: () => import('./sk.json'),
   te: () => import('./te.json'),
   uk: () => import('./uk.json'),
+  vi: () => import('./vi.json'),
   zh: () => import('./zh.json'),
   zh_Hant: () => import('./zh_Hant.json')
 }

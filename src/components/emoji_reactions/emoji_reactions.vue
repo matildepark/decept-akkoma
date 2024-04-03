@@ -14,12 +14,13 @@
         <span
           v-if="(reaction.url !== null && reaction.url !== undefined)"
         >
-          <img
+          <StillImage
             :src="reaction.url"
             :title="reaction.name"
+            :alt="reaction.name"
             class="reaction-emoji"
             width="1.55em"
-          >
+          />
           {{ reaction.count }}
         </span>
         <span v-else>

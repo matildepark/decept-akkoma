@@ -194,7 +194,7 @@
                 >
                   <Timeago
                     :time="status.created_at"
-                    :with-direction="true"
+                    :with-direction="!compact"
                     :auto-update="60"
                   />
                 </router-link>

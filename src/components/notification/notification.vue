@@ -150,7 +150,6 @@
             >
               <Timeago
                 :time="notification.created_at"
-                :with-direction="true"
                 :auto-update="240"
               />
             </router-link>

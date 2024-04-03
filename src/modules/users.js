@@ -135,6 +135,10 @@ export const mutations = {
     const user = state.usersObject[id]
     user['deactivated'] = deactivated
   },
+  setDisplayBackground(state, url) {
+    console.log("Commiting user profile bg mutation")
+    state.displayBackground = url
+  },
   setCurrentUser (state, user) {
     state.lastLoginName = user.screen_name
     state.currentUser = mergeWith(state.currentUser || {}, user, mergeArrayLength)
@@ -199,20 +203,27 @@ export const mutations = {
     })
   },
   saveBlockIds (state, blockIds) {
-    state.currentUser.blockIds = blockIds
+    console.log("ADDING BLOCK IDS", blockIds);
+    state.currentUser.blockIds = uniq(concat(state.currentUser.blockIds || [], blockIds))
   },
   addBlockId (state, blockId) {
     if (state.currentUser.blockIds.indexOf(blockId) === -1) {
       state.currentUser.blockIds.push(blockId)
     }
   },
+  setBlockIdsMaxId (state, blockIdsMaxId) {
+    state.currentUser.blockIdsMaxId = blockIdsMaxId
+  },
   saveMuteIds (state, muteIds) {
-    state.currentUser.muteIds = muteIds
+    state.currentUser.muteIds = uniq(concat(state.currentUser.muteIds || [], muteIds))
   },
   addMuteId (state, muteId) {
     if (state.currentUser.muteIds.indexOf(muteId) === -1) {
       state.currentUser.muteIds.push(muteId)
     }
+  },
+  setMuteIdsMaxId (state, muteIdsMaxId) {
+    state.currentUser.muteIdsMaxId = muteIdsMaxId
   },
   updateMascot (state, mascotUrl) {
     state.currentUser.mascot = mascotUrl
@@ -300,6 +311,7 @@ export const defaultState = {
   currentUser: false,
   users: [],
   usersObject: {},
+  displayBackground: null,
   signUpPending: false,
   signUpErrors: [],
   relationships: {},
@@ -312,6 +324,10 @@ const users = {
   mutations,
   getters,
   actions: {
+    setDisplayBackground (store, url) {
+      console.log("Performing user profile bg action...")
+      store.commit('setDisplayBackground', url)
+    },
     fetchUserIfMissing (store, id) {
       if (!store.getters.findUser(id)) {
         store.dispatch('fetchUser', id)
@@ -330,10 +346,21 @@ const users = {
           .then((relationships) => store.commit('updateUserRelationship', relationships))
       }
     },
-    fetchBlocks (store) {
-      return store.rootState.api.backendInteractor.fetchBlocks()
+    fetchBlocks (store, args) {
+      const { reset } = args || {}
+
+      const maxId = store.state.currentUser.blockIdsMaxId
+      return store.rootState.api.backendInteractor.fetchBlocks({ maxId })
         .then((blocks) => {
           store.commit('saveBlockIds', map(blocks, 'id'))
+          if (reset) {
+            store.commit('saveBlockIds', map(blocks, 'id'))
+          } else {
+            map(blocks, 'id').map(id => store.commit('addBlockId', id))
+          }
+          if (blocks.length) {
+            store.commit('setBlockIdsMaxId', last(blocks).id)
+          }
           store.commit('addNewUsers', blocks)
           return blocks
         })
@@ -353,10 +380,22 @@ const users = {
     unblockUsers (store, ids = []) {
       return Promise.all(ids.map(id => unblockUser(store, id)))
     },
-    fetchMutes (store) {
-      return store.rootState.api.backendInteractor.fetchMutes()
+    fetchMutes (store, args) {
+      const { reset } = args || {}
+
+      const maxId = store.state.currentUser.muteIdsMaxId
+      return store.rootState.api.backendInteractor.fetchMutes({ maxId })
         .then((mutes) => {
           store.commit('saveMuteIds', map(mutes, 'id'))
+          if (reset) {
+            store.commit('saveMuteIds', map(mutes, 'id'))
+          } else {
+            map(mutes, 'id').map(id => store.commit('addMuteId', id))
+          }
+          if (mutes.length) {
+            store.commit('setMuteIdsMaxId', last(mutes).id)
+          }
+
           store.commit('addNewUsers', mutes)
           return mutes
         })

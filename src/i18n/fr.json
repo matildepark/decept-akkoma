@@ -425,6 +425,8 @@
         "reason_placeholder": "Cette instance modère les inscriptions manuellement.\nExpliquer ce qui motive votre inscription à l'administration.",
         "register": "Enregistrer",
         "registration": "Inscription",
+        "request_sent": "Votre demande d'enregistrement est en attente d'approbation. Vous recevrez un courriel lorsque votre compte sera approuvé.",
+        "request_sent_title": "Demande d'abonnement envoyée",
         "token": "Jeton d'invitation",
         "username_placeholder": "ex : misato",
         "validations": {
@@ -918,7 +920,6 @@
         "upload_a_photo": "Envoyer une photo",
         "useStreamingApi": "Recevoir les messages et notifications en temps réel",
         "useStreamingApiWarning": "(Non recommandé, expérimental, connu pour rater des messages)",
-        "use_at_icon": "Afficher le symbol {'@'} comme une image",
         "use_contain_fit": "Ne pas rogner les miniatures des pièces-jointes",
         "use_one_click_nsfw": "Ouvrir les pièces-jointes sensibles avec un seul clic",
         "user_mutes": "Comptes",

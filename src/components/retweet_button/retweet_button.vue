@@ -76,7 +76,10 @@
   }
 
   .interactive {
-    animation-duration: 0.6s;
+      @media (prefers-reduced-motion: reduce) {
+        animation: unset;
+      }
+      animation-duration: 0.6s;
 
     &:hover,
     &.-repeated {

@@ -57,6 +57,9 @@
 
   .interactive {
     .svg-inline--fa {
+      @media (prefers-reduced-motion: reduce) {
+        animation: unset;
+      }
       animation-duration: 0.6s;
     }
 

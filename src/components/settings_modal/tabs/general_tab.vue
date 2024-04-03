@@ -155,6 +155,11 @@
           </BooleanSetting>
         </li>
         <li>
+          <BooleanSetting path="displayPageBackgrounds">
+            {{ $t('settings.show_page_backgrounds') }}
+          </BooleanSetting>
+        </li>
+        <li>
           <BooleanSetting path="stopGifs">
             {{ $t('settings.stop_gifs') }}
           </BooleanSetting>
@@ -491,14 +496,6 @@
             </BooleanSetting>
           </li>
         </ul>
-        <li>
-          <BooleanSetting
-            path="useAtIcon"
-            expert="1"
-          >
-            {{ $t('settings.use_at_icon') }}
-          </BooleanSetting>
-        </li>
         <li>
           <BooleanSetting path="mentionLinkShowAvatar">
             {{ $t('settings.mention_link_show_avatar') }}
